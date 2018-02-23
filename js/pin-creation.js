@@ -2,11 +2,11 @@ var map = document.getElementsByClassName("level__pins");
 map[0].onclick = function(event) {
     var x=event.clientX;
     var y=event.clientY;
-    console.info(pxToVhim(x,y));
+    console.info(pxToVmin(x,y));
     console.info("X coords: " + x + "px, Y coords: " + y + "px");
 }
 
-function pxToVhim (x, y) {
+function pxToVmin (x, y) {
     var heightBrows = document.documentElement.clientHeight;
     var widthBrows = document.documentElement.clientWidth;
 
