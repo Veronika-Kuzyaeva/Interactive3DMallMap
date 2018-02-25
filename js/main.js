@@ -222,6 +222,12 @@
 			isExpanded = true;
 		}, 'transform');
 		
+		try {
+			reGroupPin(selectedLevel);
+		}
+		catch(e) {
+		}
+
 		// hide surroundings element
 		hideSurroundings();
 		
@@ -277,7 +283,7 @@
 	 */
 	function showPins(levelEl) {
 		var levelEl = levelEl || mallLevels[selectedLevel - 1];
-		classie.add(levelEl.querySelector('.level__pins'), 'level__pins--active');
+		classie.add(levelEl.querySelector('.level__pins'), 'level__pins--active');	
 	}
 
 	/**

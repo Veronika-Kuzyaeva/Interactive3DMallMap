@@ -161,10 +161,12 @@ button:focus {
 	width: 100%;
 	height: 100%;
 	pointer-events: none;
+	
 	-webkit-perspective: 3500px;
 	perspective: 3500px;
 	-webkit-perspective-origin: 0% 50%;
 	perspective-origin: 0% 50%;
+	
 	-webkit-transition: -webkit-transform 0.8s;
 	transition: transform 0.8s;
 	-webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
@@ -209,16 +211,16 @@ button:focus {
 	width: 96vmin;
 	height: 64vmin;
 	margin: -32vmin 0 0 -48vmin;
-	-webkit-transition: -webkit-transform 0.3s;
-	transition: transform 0.3s;
+	-webkit-transition: opacity 0.8s;
+	transition: opacity 0.8s;
 	-webkit-transform-style: preserve-3d;
 	transform-style: preserve-3d;
 }
 
 .surroundings,
 .levels {
-	-webkit-transform: rotateX(70deg) rotateZ(-45deg) translateZ(-15vmin);
-	transform: rotateX(70deg) rotateZ(-45deg) translateZ(-15vmin);
+	-webkit-transform: rotateX(0deg) rotateZ(0deg) translateZ(-15vmin);
+	transform: rotateX(0deg) rotateZ(0deg) translateZ(-15vmin);
 }
 
 .level {
@@ -244,8 +246,8 @@ button:focus {
     left: 3.5em;
 	white-space: nowrap;
 	color: #7d7d86;
-	-webkit-transform: rotateZ(45deg) rotateX(-70deg) translateZ(5vmin);
-	transform: rotateZ(45deg) rotateX(-70deg) translateZ(5vmin);
+	-webkit-transform: rotateX(0deg) rotateZ(0deg) translateZ(-15vmin);
+	transform: rotateX(0deg) rotateZ(0deg) translateZ(-15vmin);
 	-webkit-transition: -webkit-transform 1s, color 0.3s;
 	transition: transform 1s, color 0.3s;
 	-webkit-transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
@@ -258,8 +260,10 @@ button:focus {
 }
 
 .level--current::after {
-	-webkit-transform: rotateZ(-20deg) rotateZ(45deg) rotateX(-70deg) translateZ(5vmin) translateX(5vmin) translateY(-10vmin);
-	transform: rotateZ(-20deg) rotateZ(45deg) rotateX(-70deg) translateZ(5vmin) translateX(5vmin) translateY(-10vmin);
+	-webkit-transform: rotateZ(0deg) rotateZ(0deg) rotateX(0deg) 
+					   translateZ(0vmin) translateX(0vmin) translateY(0vmin);
+	transform: rotateZ(0deg) rotateZ(0deg) rotateX(0deg) 
+			   translateZ(0vmin) translateX(0vmin) translateY(0vmin);
 }
 
 .level--1::after {
@@ -359,9 +363,9 @@ button:focus {
 /* Current level */
 
 .level.level--current {
-	-webkit-transform: translateZ(15vmin) rotate3d(0,0,1,20deg);
+	-webkit-transform: translateZ(15vmin) rotate3d(0,0,0,0deg);
 	/* go to center */
-	transform: translateZ(15vmin) rotate3d(0,0,1,20deg);
+	transform: translateZ(15vmin) rotate3d(0,0,0,0deg);
 }
 
 /* Navigation classes */
