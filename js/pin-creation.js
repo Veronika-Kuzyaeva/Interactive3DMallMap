@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 function reGroupPin(level) {
     var map = document.getElementsByClassName("map map--" + level);
     map[0].onclick = (event) => {
@@ -11,6 +12,19 @@ function reGroupPin(level) {
     function pxToVmin (x, y) {
         var heightBrows = document.documentElement.clientHeight;
         var widthBrows = document.documentElement.clientWidth;
+=======
+var map = document.getElementsByClassName("level__pins");
+map[0].onclick = function(event) {
+    var x=event.clientX;
+    var y=event.clientY;
+    console.info(pxToVhim(x,y));
+    console.info("X coords: " + x + "px, Y coords: " + y + "px");
+}
+
+function pxToVhim (x, y) {
+    var heightBrows = document.documentElement.clientHeight;
+    var widthBrows = document.documentElement.clientWidth;
+>>>>>>> parent of 7081cd7... pin-creation
 
         heightBrows >= widthBrows ? vmin = Math.floor(widthBrows / 100) :
                                     vmin = Math.floor(heightBrows / 100);
