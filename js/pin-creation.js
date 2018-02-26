@@ -1,8 +1,9 @@
 function reGroupPin(level) {
     var map = document.getElementsByClassName("map map--" + level);
-    map[0].onclick = function(event) {
-        var x=event.clientX;
-        var y=event.clientY;
+    map[0].onclick = (event) => {
+        var rect =  map[0].getBoundingClientRect();
+        var x=event.clientX - rect.x;
+        var y=event.clientY - rect.y;
         console.info(pxToVmin(x,y));
         console.info("X coords: " + x + "px, Y coords: " + y + "px");
     }
