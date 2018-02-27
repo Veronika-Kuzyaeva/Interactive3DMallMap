@@ -20,12 +20,12 @@ function reGroupPin(level) {
         //rotateX(-45deg)
         //around X
         //(newX, newY, newZ)
-        var newX2 = newX * Math.cos(45) + newY * Math.sin(45);
-        var newY2 = newX * Math.sin(45) - newY * Math.cos(45);
+        var newX2 = newX * Math.cos(45) - newY * Math.sin(45);
+        var newY2 = newX * Math.sin(45) + newY * Math.cos(45);
         var newZ2 = newZ;
 
         console.info("X coords: " + x + "px, Y coords: " + y + "px");
-        console.info(pxToVmin(newY2,newX2));
+        console.info(pxToVmin(newX2,newY2));
         
     }
 
