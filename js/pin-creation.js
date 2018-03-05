@@ -6,22 +6,22 @@ function reGroupPin(level) {
         console.info(map[0]);
         var rect =  map[0].getBoundingClientRect();
         
-        var x=event.clientX - rect.x;
-        var y=event.clientY - rect.y;
+        var x=event.offsetX-30;// - rect.x;
+        var y=event.offsetY+50;// - rect.y;
         var z = 0;
 
         //rotateX(70deg)
         //around X
         //(x, y, 0)
         var newX = x;
-        var newY = y* Math.cos(-70);
-        var newZ = y * Math.sin(-70);
+        var newY = y* Math.cos(-(Math.PI/9)*7);
+        var newZ = y * Math.sin(-(Math.PI/9)*7);
 
         //rotateX(-45deg)
         //around X
         //(newX, newY, newZ)
-        var newX2 = newX * Math.cos(45) - newY * Math.sin(45);
-        var newY2 = newX * Math.sin(45) + newY * Math.cos(45);
+        var newX2 = newX * Math.cos(Math.PI/2) - newY * Math.sin(Math.PI/2);
+        var newY2 = newX * Math.sin(Math.PI/2) + newY * Math.cos(Math.PI/2);
         var newZ2 = newZ;
 
         console.info("X coords: " + x + "px, Y coords: " + y + "px");
@@ -36,8 +36,8 @@ function reGroupPin(level) {
         heightBrows >= widthBrows ? vmin = Math.floor(widthBrows / 100) :
                                     vmin = Math.floor(heightBrows / 100);
 
-        vh = Math.floor(y/vmin);
-        vw = Math.floor(x/vmin);
+        vh = Math.floor(x/vmin);
+        vw = Math.floor(y/vmin);
         createPin(vh, vw);
         return (vh + " " + vw);
     }
