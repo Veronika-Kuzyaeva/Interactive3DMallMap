@@ -11,6 +11,10 @@
 		<link rel="shortcut icon" href="favicon.ico">
 		<link rel="stylesheet" type="text/css" href="css/normalize.css" />
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
+
+		<!-- Axios -->
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		
 		<script src="js/modernizr-custom.js"></script>
 	</head>
 	<body>
@@ -272,6 +276,7 @@
 								<polygon points="561.3,603.9 624,777 661.9,763.2 597.7,591.5" class="map__space" />
 							</svg>
 							<div class="level__pins">
+								<!--
 								<a class="pin pin--1-1" data-category="1" data-space="1.01" href="#" aria-label="Pin for Apple Heart">
 									<span class="pin__icon">
 										<svg class="icon icon--pin"><use xlink:href="#icon-pin"></use></svg>
@@ -326,7 +331,9 @@
 										<svg class="icon icon--logo icon--pear"><use xlink:href="#icon-pear"></use></svg>
 									</span>
 								</a>
+								-->
 							</div>
+						
 							<!-- /level__pins -->
 						</div>
 						<div class="level level--2" aria-label="Level 2">
@@ -355,6 +362,7 @@
 								<polygon points="627.81 787.41 716.09 787.41 716.09 646.58 576.88 646.58 627.81 787.41" class="map__space" />
 							</svg>
 							<div class="level__pins">
+								<!--
 								<a class="pin pin--2-1" data-category="1" data-space="2.01" href="#" aria-label="Pin for Grilled Chipotle">
 									<span class="pin__icon">
 										<svg class="icon icon--pin"><use xlink:href="#icon-pin"></use></svg>
@@ -403,6 +411,7 @@
 										<svg class="icon icon--logo icon--wrench"><use xlink:href="#icon-wrench"></use></svg>
 									</span>
 								</a>
+							-->
 							</div>
 							<!-- /level__pins -->
 						</div>
@@ -431,6 +440,7 @@
 								<rect data-space="3.01" x="49.4" y="12.6" width="312.7" height="343" class="map__space" />
 							</svg>
 							<div class="level__pins">
+								<!--
 								<a class="pin pin--3-1" data-category="1" data-space="3.01" href="#" aria-label="Pin for Oolong House">
 									<span class="pin__icon">
 										<svg class="icon icon--pin"><use xlink:href="#icon-pin"></use></svg>
@@ -473,6 +483,7 @@
 										<svg class="icon icon--logo icon--star"><use xlink:href="#icon-star"></use></svg>
 									</span>
 								</a>
+							-->
 							</div>
 							<!-- /level__pins -->
 						</div>
@@ -503,6 +514,7 @@
 								<polygon points="613.2,747 846.6,658.6 846.6,787.4 627.8,787.4" class="map__space" />
 							</svg>
 							<div class="level__pins">
+								<!--
 								<a class="pin pin--4-1" data-category="1" data-space="4.01" href="#" aria-label="Pin for Cold Soup Kitchen">
 									<span class="pin__icon">
 										<svg class="icon icon--pin"><use xlink:href="#icon-pin"></use></svg>
@@ -545,6 +557,7 @@
 										<svg class="icon icon--logo icon--leafcircle"><use xlink:href="#icon-leafcircle"></use></svg>
 									</span>
 								</a>
+							-->
 							</div>
 							<!-- /level__pins -->
 						</div>
@@ -559,6 +572,7 @@
 					<button class="boxbutton mallnav__button--down" aria-label="Go down"><svg class="icon icon--angle-down"><use xlink:href="#icon-angle-down"></use></svg></button>
 				</nav>
 				<div class="content">
+					<!--
 					<div class="content__item" data-space="1.01" data-category="1">
 						<h3 class="content__item-title">Apple Heart</h3>
 						<div class="content__item-details">
@@ -871,6 +885,7 @@
 						</div>
 					</div>
 					<button class="boxbutton boxbutton--dark content__button content__button--hidden" aria-label="Close details"><svg class="icon icon--cross"><use xlink:href="#icon-cross"></use></svg></button>
+				-->
 				</div>
 				<!-- content -->
 			</div>
@@ -885,7 +900,8 @@
 					<label class="label__text">A - Z</label>
 				</span>
 				<ul class="list grouped-by-category">
-					<li class="list__item" data-level="1" data-category="1" data-space="1.08"><a href="#" class="list__link">The Wizard</a></li>
+					<li class="list__item" data-level="2" data-category="2" data-space="1.08"><a href="#" class="list__link">The Wizard</a></li>
+					<!--
 					<li class="list__item" data-level="1" data-category="1" data-space="1.01"><a href="#" class="list__link">Apple Heart</a></li>
 					<li class="list__item" data-level="1" data-category="1" data-space="1.02"><a href="#" class="list__link">Crazy Banana</a></li>
 					<li class="list__item" data-level="2" data-category="1" data-space="2.05"><a href="#" class="list__link">The Eggplanthead</a></li>
@@ -916,7 +932,47 @@
 					<li class="list__item" data-level="1" data-category="4" data-space="1.05"><a href="#" class="list__link">Meditation Garden</a></li>
 					<li class="list__item" data-level="4" data-category="4" data-space="4.05"><a href="#" class="list__link">Hot Tub Festival</a></li>
 					<li class="list__item" data-level="3" data-category="4" data-space="3.06"><a href="#" class="list__link">Feel the Grass</a></li>
+					-->
 				</ul>
+				<span class="label">
+						<input id="sort-by-name" class="label__checkbox" type="checkbox" aria-label="Show alphabetically"/>
+						<label class="label__text">A - Z</label>
+					</span>
+					<ul class="list grouped-by-category">
+						<li class="list__item" data-level="2" data-category="2" data-space="1.08"><a href="#" class="list__link">The Wizard</a></li>
+						<!--
+						<li class="list__item" data-level="1" data-category="1" data-space="1.01"><a href="#" class="list__link">Apple Heart</a></li>
+						<li class="list__item" data-level="1" data-category="1" data-space="1.02"><a href="#" class="list__link">Crazy Banana</a></li>
+						<li class="list__item" data-level="2" data-category="1" data-space="2.05"><a href="#" class="list__link">The Eggplanthead</a></li>
+						<li class="list__item" data-level="1" data-category="1" data-space="1.09"><a href="#" class="list__link">Smoothies &amp; Soul</a></li>
+						<li class="list__item" data-level="1" data-category="1" data-space="1.06"><a href="#" class="list__link">Seed of Life</a></li>	
+						<li class="list__item" data-level="1" data-category="1" data-space="1.07"><a href="#" class="list__link">Raw Delight</a></li>
+						<li class="list__item" data-level="2" data-category="1" data-space="2.01"><a href="#" class="list__link">Grilled Chipotle</a></li>
+						<li class="list__item" data-level="3" data-category="1" data-space="3.01"><a href="#" class="list__link">Oolong House</a></li>
+						<li class="list__item" data-level="4" data-category="1" data-space="4.01"><a href="#" class="list__link">Cold Soup Kitchen</a></li>
+						<li class="list__item" data-level="2" data-category="1" data-space="2.06"><a href="#" class="list__link">Superfood</a></li>
+						<li class="list__item" data-level="4" data-category="2" data-space="4.06"><a href="#" class="list__link">Love 2 Cook</a></li>
+						<li class="list__item" data-level="4" data-category="2" data-space="4.07"><a href="#" class="list__link">Permaculture Hub</a></li>
+						<li class="list__item" data-level="1" data-category="2" data-space="1.03"><a href="#" class="list__link">Folding Life</a></li>
+						<li class="list__item" data-level="2" data-category="2" data-space="2.02"><a href="#" class="list__link">Rocketship Tech</a></li>
+						<li class="list__item" data-level="2" data-category="2" data-space="2.03"><a href="#" class="list__link">Which Bug?</a></li>
+						<li class="list__item" data-level="3" data-category="2" data-space="3.02"><a href="#" class="list__link">Enlightend Path</a></li>
+						<li class="list__item" data-level="4" data-category="2" data-space="4.02"><a href="#" class="list__link">Docu Dome</a></li>
+						<li class="list__item" data-level="4" data-category="3" data-space="4.03"><a href="#" class="list__link">Little Artist</a></li>
+						<li class="list__item" data-level="3" data-category="3" data-space="3.04"><a href="#" class="list__link">Your Last Shirt</a></li>
+						<li class="list__item" data-level="2" data-category="3" data-space="2.08"><a href="#" class="list__link">Tool Exchange</a></li>
+						<li class="list__item" data-level="1" data-category="3" data-space="1.04"><a href="#" class="list__link">Dress me not</a></li>
+						<li class="list__item" data-level="2" data-category="3" data-space="2.04"><a href="#" class="list__link">Cognitio</a></li>
+						<li class="list__item" data-level="3" data-category="3" data-space="3.03"><a href="#" class="list__link">What makes us walk</a></li>
+						<li class="list__item" data-level="2" data-category="3" data-space="2.07"><a href="#" class="list__link">No Princess</a></li>
+						<li class="list__item" data-level="3" data-category="4" data-space="3.07"><a href="#" class="list__link">Star Gazer</a></li>
+						<li class="list__item" data-level="4" data-category="4" data-space="4.04"><a href="#" class="list__link">Space 16</a></li>
+						<li class="list__item" data-level="3" data-category="4" data-space="3.05"><a href="#" class="list__link">Breathe</a></li>
+						<li class="list__item" data-level="1" data-category="4" data-space="1.05"><a href="#" class="list__link">Meditation Garden</a></li>
+						<li class="list__item" data-level="4" data-category="4" data-space="4.05"><a href="#" class="list__link">Hot Tub Festival</a></li>
+						<li class="list__item" data-level="3" data-category="4" data-space="3.06"><a href="#" class="list__link">Feel the Grass</a></li>
+						-->
+					</ul>
 			</aside>
 			<!-- /spaces-list -->
 		</div>
@@ -925,4 +981,5 @@
 		<script src="js/list.min.js"></script>
 		<script src="js/main.js"></script>
 		<script src="js/pin-creation.js"></script>
+		<script src="js/ajax_query.js"></script>
 	</body>
