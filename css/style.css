@@ -174,8 +174,12 @@ button:focus {
 }
 
 .mall.mall--content-open {
+	/*
 	-webkit-transform: translate3d(0,-25%,0) scale3d(0.8,0.8,1);
 	transform: translate3d(0,-25%,0) scale3d(0.8,0.8,1);
+	*/
+	-webkit-transform: translate3d(0,-10%,0);
+	transform: translate3d(0,-10%,0);
 }
 
 .surroundings,
@@ -489,7 +493,7 @@ button:focus {
 	position: absolute;
 	top: 100%;
 	width: 100%;
-	height: 50%;
+	height: 30%;
 }
 
 .content__item {
@@ -876,7 +880,7 @@ button:focus {
 }
 
 /* Pins for floor 1 */
-/*
+
 .pin--1-1 { top: 13vmin; left: 4vmin; }
 .pin--1-2 { top: 15vmin; left: 15vmin; }
 .pin--1-3 { top: 15vmin; left: 88vmin; }
@@ -884,7 +888,7 @@ button:focus {
 .pin--1-5 { top: 33vmin; left: 38vmin; }
 .pin--1-6 { top: 6vmin; left: 27vmin; }
 .pin--1-7 { top: 36vmin; left: 61vmin; }
-.pin--1-8 { top: 9vmin; left: 59vmin; }
+.pin--1-8 { top: 9vmin; left: 59vmin; display: none}
 .pin--1-9 { top: 8vmin; left: 51vmin; }
 
 /* Pins for floor 2 */
