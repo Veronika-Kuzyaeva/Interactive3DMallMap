@@ -14,6 +14,8 @@
 
 		<!-- Axios -->
 		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<!-- Get unfloors equipment -->
+		<script src="js/listManipulation.js"></script>
 		
 		<script src="js/modernizr-custom.js"></script>
 	</head>
@@ -906,6 +908,9 @@
 					<input id="sort-by-name" class="label__checkbox" type="checkbox" aria-label="Show alphabetically"/>
 					<label class="label__text">A - Z</label>
 				</span>
+				<button onclick = 'showList(list)'>
+					
+				</button>
 				<ul class="list grouped-by-category">
 					<li class="list__item" data-level="1" data-category="1" data-space="1.08"><a href="#" class="list__link">The Wizard</a></li>
 					<!--
@@ -948,6 +953,7 @@
 		<script src="js/classie.js"></script>
 		<script src="js/list.min.js"></script>
 		<script src="js/main.js"></script>
+
 		<!--
 		<script src="js/pin-creation.js"></script>
 		<script src="js/ajax_query.js"></script>
