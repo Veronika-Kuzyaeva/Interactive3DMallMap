@@ -428,12 +428,14 @@
 		}
 
 		// remove class selected (if any) from current space
+		/*
 		var activeSpaceArea = mallLevels[selectedLevel - 1].querySelector('svg > .map__space--selected');
 		if( activeSpaceArea ) {
 			classie.remove(activeSpaceArea, 'map__space--selected');
 		}
 		// svg area gets selected
 		classie.add(mallLevels[selectedLevel - 1].querySelector('svg > .map__space[data-space="' + spaceref + '"]'), 'map__space--selected');
+		*/
 	}
 
 	/**
@@ -503,10 +505,13 @@
 			classie.remove(activeItem, 'list__item--active');
 		}
 		// remove class selected (if any) from current space
+		/*
 		var activeSpaceArea = mallLevels[selectedLevel - 1].querySelector('svg > .map__space--selected');
+		
 		if( activeSpaceArea ) {
 			classie.remove(activeSpaceArea, 'map__space--selected');
 		}
+		*/
 	}
 
 	/**

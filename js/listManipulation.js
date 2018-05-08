@@ -1,70 +1,145 @@
-var list = {
-            'equipments' : {
-                0: {
-                    'equip_id' : 0,
-                    'equip_name' : 'Staff #0',
-                    'description' : 'Some desc 0',
-                    'Xasis' : -1,
-                    'Yasis' : -1
-                },
-                1: {
-                    'equip_id' : 1,
-                    'equip_name' : 'Staff #1',
-                    'description' : 'Some desc 1',
-                    'Xasis' : -1,
-                    'Yasis' : -1
-                },
-                2: {
-                    'equip_id' : 2,
-                    'equip_name' : 'Staff #2',
-                    'description' : 'Some desc 2',
-                    'Xasis' : -1,
-                    'Yasis' : -1
-                }
+
+    var list = {
+                'equipments' : {
+                    0: {
+                        'equip_id' : 0,
+                        'building_id' : 1,
+                        'floor_id' : 1,
+                        'equip_name' : 'Staff #0',
+                        'description' : 'Some desc 0',
+                        'Xasis' : 60,
+                        'Yasis' : 50
+                    },
+                    1: {
+                        'equip_id' : 1,
+                        'building_id' : 1,
+                        'floor_id' : 1,
+                        'equip_name' : 'Staff #1',
+                        'description' : 'Some desc 1',
+                        'Xasis' : 20,
+                        'Yasis' : 30
+                    },
+                    2: {
+                        'equip_id' : 2,
+                        'building_id' : 1,
+                        'floor_id' : 3,
+                        'equip_name' : 'Staff #2',
+                        'description' : 'Some desc 2',
+                        'Xasis' : 100,
+                        'Yasis' : 120
+                    },
+                    4: {
+                        'equip_id' : 3,
+                        'building_id' : 1,
+                        'floor_id' : 4,
+                        'equip_name' : 'Staff #3',
+                        'description' : 'Some desc 3',
+                        'Xasis' : 5,
+                        'Yasis' : 20
+                    }
+            }
+    }
+
+    function showList(list) {
+        var newList = document.querySelector('.container>aside>ul');
+        var itemMenu = document.getElementsByClassName('content')[0];
+
+        console.info(list);
+        /*
+        while (newList.firstChild) {
+            newList.removeChild(newList.firstChild);
         }
-}
+        */
+        for (let index in list['equipments']) {
+            console.info(index);
+            
+            //Add item to list
+            var li = document.createElement('li');
 
-function showList(list = '') {
-    var newList = document.querySelector('.container>aside>ul');
-    
-    // TODO: Add new group '-1' for placeless objects
-    // TODO: Make free '-1' for filtration
-    // TODO: Set button as new filter
+            li.setAttribute("class", "list__item");
+            li.setAttribute("data-level", list['equipments'][index]['floor_id']);
+            li.setAttribute('data-category', '1');
+            li.setAttribute('data-space', list['equipments'][index]['equip_id']);
+            
 
-    console.info(list);
-    while (newList.firstChild) {
-        newList.removeChild(newList.firstChild);
+            var a = document.createElement('a');
+
+            a.setAttribute('href', '#');
+            a.setAttribute('class', 'list__link');
+            a.innerText = list['equipments'][index]['equip_name'];
+
+            li.appendChild(a);
+
+            newList.appendChild(li);
+
+            //Add menu to item
+            var divContent = document.createElement('div');
+            
+            divContent.setAttribute('class', 'content__item');
+            divContent.setAttribute('data-space', list['equipments'][index]['equip_id']);
+            divContent.setAttribute('data-category', '1');
+
+            var head = document.createElement('h3');
+            head.setAttribute('class','content__item-title');
+            head.innerText = list['equipments'][index]['equip_name'];
+
+            var divDetails = document.createElement('div');
+            divDetails.setAttribute('class','content__item-details');
+
+            var pDesc = document.createElement('p');
+            pDesc.setAttribute('class', "content__desc");
+            pDesc.innerText = list['equipments'][index]['description'];
+
+            divDetails.appendChild(pDesc);
+            divContent.appendChild(head);
+            divContent.appendChild(divDetails);
+
+            itemMenu.insertBefore(divContent, itemMenu.children[1]);
+            //console.info(divContent);
+
+            var aPin = document.createElement('a');
+            aPin.setAttribute('class', 
+                                'pin pin--' + list['equipments'][index]['floor_id'] + 
+                                '-' + list['equipments'][index]['equip_id']);
+            aPin.setAttribute('data-category', '1');
+            aPin.setAttribute('data-space', list['equipments'][index]['equip_id']);
+            aPin.setAttribute('href', '#');
+            aPin.setAttribute('aria-label', 'Pin for ' + 
+                                list['equipments'][index]['equip_name']);
+                                
+
+
+            var spanPin = document.createElement('span');
+            spanPin.setAttribute('class', 'pin__icon');
+
+            var svgPin = document.createElement('svg');
+            svgPin.setAttribute('class', 'icon icon--pin');
+            
+            
+            var xmlns = "http://www.w3.org/2000/svg",
+                xlinkns = "http://www.w3.org/1999/xlink";
+
+            var use = document.createElementNS(xmlns, "use")
+            use.setAttributeNS(xlinkns, "xlink:href", '#icon-pin');
+
+            svgPin.appendChild(use);
+            /*
+            var svgPinLogo = document.createElement('svg');
+            svgPinLogo.setAttribute('class', "icon icon--logo icon--origami");
+            */
+
+            spanPin.appendChild(svgPin);
+            //spanPin.appendChild(svgPinLogo);
+            aPin.appendChild(spanPin);
+
+            var divLevelPins = document.body.getElementsByClassName('level__pins')[list['equipments'][index]['floor_id']-1];
+            console.info(divLevelPins);
+            
+            divLevelPins.appendChild(aPin);
+        }
+        
+        //var ulGrupped = document.querySelector('');
     }
-    
-    
-    /* <li class="list__item" 
-           data-level="1" 
-           data-category="1" 
-           data-space="1.01">
-           <a href="#" class="list__link">
-                Apple Heart
-            </a>
-        </li>
-    */
 
-    for (let index in list['equipments']) {
-        console.info(index);
-        var li = document.createElement('li');
+    showList(list);
 
-        li.setAttribute("class", "list__item");
-        li.setAttribute("data-level", "-1");
-
-        var a = document.createElement('a');
-
-        a.setAttribute('href', '#');
-        a.setAttribute('class', 'list__link');
-        a.innerText = list['equipments'][index]['equip_name'];
-
-        li.appendChild(a);
-
-        newList.appendChild(li);
-    }
-    
-
-    //var ulGrupped = document.querySelector('');
-}
