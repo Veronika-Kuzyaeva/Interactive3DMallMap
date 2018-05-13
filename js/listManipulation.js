@@ -109,28 +109,27 @@
                                 
 
 
-            var spanPin = document.createElement('span');
-            spanPin.setAttribute('class', 'pin__icon');
-
-            var svgPin = document.createElement('svg');
-            svgPin.setAttribute('class', 'icon icon--pin');
+            var divPin = document.createElement('div');
+            divPin.setAttribute('class', 'pin__icon');
             
-            
-            var xmlns = "http://www.w3.org/2000/svg",
-                xlinkns = "http://www.w3.org/1999/xlink";
-
-            var use = document.createElementNS(xmlns, "use")
-            use.setAttributeNS(xlinkns, "xlink:href", '#icon-pin');
-
-            svgPin.appendChild(use);
+            var imgPin = document.createElement('img');
+            imgPin.setAttribute('src', 'img/pin.svg');
+            imgPin.setAttribute('class', 'icon icon--pin');
+                     
             /*
             var svgPinLogo = document.createElement('svg');
             svgPinLogo.setAttribute('class', "icon icon--logo icon--origami");
             */
+            
+            /**
+             * <div class="surroundings">
+                                    <img class="surroundings__map" src="img/surroundings.svg" alt="Surroundings"/>
+                                </div>
+            */
 
-            spanPin.appendChild(svgPin);
+            divPin.appendChild(imgPin);
             //spanPin.appendChild(svgPinLogo);
-            aPin.appendChild(spanPin);
+            aPin.appendChild(divPin);
 
             var divLevelPins = document.body.getElementsByClassName('level__pins')[list['equipments'][index]['floor_id']-1];
             console.info(divLevelPins);
