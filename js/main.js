@@ -152,6 +152,7 @@
 				}
 			});
 			pin.addEventListener('click', function(ev) {
+				console.log("CLIIIICK!!");
 				ev.preventDefault();
 				// open content for this pin
 				openContent(pin.getAttribute('data-space'));
@@ -274,7 +275,9 @@
 	 */
 	function showLevelSpaces() {
 		spacesList.filter(function(item) { 
-			return item.values().level === selectedLevel.toString(); 
+			//console.log('__________________________________');
+			//console.log(item);
+			return (item.values().level === selectedLevel.toString()) || (item.values().level === "-1"); 
 		});
 	}
 

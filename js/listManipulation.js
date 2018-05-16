@@ -1,7 +1,6 @@
 
-    var list = {
-                'equipments' : {
-                    0: {
+    let list = [
+                    {
                         'equip_id' : 0,
                         'building_id' : 1,
                         'floor_id' : 1,
@@ -10,7 +9,7 @@
                         'Xasis' : 60,
                         'Yasis' : 50
                     },
-                    1: {
+                    {
                         'equip_id' : 1,
                         'building_id' : 1,
                         'floor_id' : 1,
@@ -19,7 +18,7 @@
                         'Xasis' : 20,
                         'Yasis' : 30
                     },
-                    2: {
+                    {
                         'equip_id' : 2,
                         'building_id' : 1,
                         'floor_id' : 3,
@@ -28,7 +27,7 @@
                         'Xasis' : 100,
                         'Yasis' : 120
                     },
-                    4: {
+                    {
                         'equip_id' : 3,
                         'building_id' : 1,
                         'floor_id' : 4,
@@ -36,11 +35,21 @@
                         'description' : 'Some desc 3',
                         'Xasis' : 5,
                         'Yasis' : 20
-                    }
-            }
-    }
+                    },
 
-    function showList(list) {
+                    {
+                        'equip_id' : 4,
+                        'building_id' : -999,
+                        'floor_id' : -999,
+                        'equip_name' : 'Staff #Undef',
+                        'description' : 'SUUUNDEEEFFFFF',
+                        'Xasis' : -999,
+                        'Yasis' : -999
+                    }
+
+                ]
+
+    function showList(list, category) {
         var newList = document.querySelector('.container>aside>ul');
         var itemMenu = document.getElementsByClassName('content')[0];
 
@@ -50,45 +59,45 @@
             newList.removeChild(newList.firstChild);
         }
         */
-        for (let index in list['equipments']) {
+        for (let index in list) {
             console.info(index);
             
             //Add item to list
-            var li = document.createElement('li');
+            let li = document.createElement('li');
 
             li.setAttribute("class", "list__item");
-            li.setAttribute("data-level", list['equipments'][index]['floor_id']);
-            li.setAttribute('data-category', '1');
-            li.setAttribute('data-space', list['equipments'][index]['equip_id']);
+            li.setAttribute("data-level", list[index]['floor_id']);
+            li.setAttribute('data-category', category);
+            li.setAttribute('data-space', list[index]['equip_id']);
             
 
-            var a = document.createElement('a');
+            let a = document.createElement('a');
 
             a.setAttribute('href', '#');
             a.setAttribute('class', 'list__link');
-            a.innerText = list['equipments'][index]['equip_name'];
+            a.innerText = list[index]['equip_name'];
 
             li.appendChild(a);
 
             newList.appendChild(li);
 
             //Add menu to item
-            var divContent = document.createElement('div');
+            let divContent = document.createElement('div');
             
             divContent.setAttribute('class', 'content__item');
-            divContent.setAttribute('data-space', list['equipments'][index]['equip_id']);
-            divContent.setAttribute('data-category', '1');
+            divContent.setAttribute('data-space', list[index]['equip_id']);
+            divContent.setAttribute('data-category', category);
 
-            var head = document.createElement('h3');
+            let head = document.createElement('h3');
             head.setAttribute('class','content__item-title');
-            head.innerText = list['equipments'][index]['equip_name'];
+            head.innerText = list[index]['equip_name'];
 
-            var divDetails = document.createElement('div');
+            let divDetails = document.createElement('div');
             divDetails.setAttribute('class','content__item-details');
 
-            var pDesc = document.createElement('p');
+            let pDesc = document.createElement('p');
             pDesc.setAttribute('class', "content__desc");
-            pDesc.innerText = list['equipments'][index]['description'];
+            pDesc.innerText = list[index]['description'];
 
             divDetails.appendChild(pDesc);
             divContent.appendChild(head);
@@ -97,25 +106,30 @@
             itemMenu.insertBefore(divContent, itemMenu.children[1]);
             //console.info(divContent);
 
-            var aPin = document.createElement('a');
+            let aPin = document.createElement('a');
             aPin.setAttribute('class', 
-                                'pin pin--' + list['equipments'][index]['floor_id'] + 
-                                '-' + list['equipments'][index]['equip_id']);
-            aPin.setAttribute('data-category', '1');
-            aPin.setAttribute('data-space', list['equipments'][index]['equip_id']);
+                                'pin pin--' + list[index]['floor_id'] + 
+                                '-' + list[index]['equip_id']);
+            aPin.setAttribute('data-category', category);
+            aPin.setAttribute('data-space', list[index]['equip_id']);
             aPin.setAttribute('href', '#');
             aPin.setAttribute('aria-label', 'Pin for ' + 
-                                list['equipments'][index]['equip_name']);
-                                
-
-
-            var divPin = document.createElement('div');
+                                list[index]['equip_name']);                                
+            
+            let divPin = document.createElement('span');
             divPin.setAttribute('class', 'pin__icon');
             
+            let svgPin = Snap();
+            Snap.load("img/pin.svg", (f) => {
+                svgPin.append(f.select("symbol"));
+                svgPin.appendTo(divPin);
+            });
+
+            /*
             var imgPin = document.createElement('img');
             imgPin.setAttribute('src', 'img/pin.svg');
             imgPin.setAttribute('class', 'icon icon--pin');
-                     
+            
             /*
             var svgPinLogo = document.createElement('svg');
             svgPinLogo.setAttribute('class', "icon icon--logo icon--origami");
@@ -127,18 +141,21 @@
                                 </div>
             */
 
-            divPin.appendChild(imgPin);
+            //divPin.appendChild(s);
             //spanPin.appendChild(svgPinLogo);
             aPin.appendChild(divPin);
 
-            var divLevelPins = document.body.getElementsByClassName('level__pins')[list['equipments'][index]['floor_id']-1];
+            let divLevelPins = document.body.getElementsByClassName('level__pins')[list[index]['floor_id']-1];
             console.info(divLevelPins);
             
             divLevelPins.appendChild(aPin);
+
         }
         
         //var ulGrupped = document.querySelector('');
     }
 
-    showList(list);
+    console.log(list);
+    showList(list.filter((item) => item.building_id == 1), 1);
+    //showList(list.filter((item) => item.building_id == -999), 2);
 

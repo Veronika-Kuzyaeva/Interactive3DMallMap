@@ -786,6 +786,8 @@ button:focus {
 	transform-style: preserve-3d;
 }
 
+
+
 .pin__icon {
 	position: relative;
 	display: block;
@@ -805,6 +807,7 @@ button:focus {
 	-webkit-transform: translate3d(0,0,0);
 	transform: translate3d(0,0,0);
 }
+
 
 .pin:nth-child(2) .pin__icon {
 	-webkit-transition-delay: 0.05s;
