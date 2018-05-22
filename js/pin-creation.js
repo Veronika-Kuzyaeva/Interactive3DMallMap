@@ -96,8 +96,8 @@ function reGroupPin(level) {
         
         createPin(x, y);
     }
-
-    function createPin(left, top, count = 1, floorLevel = 1) {
+};
+function createPin(left, top, count = 1, floorLevel = 1) {
         var pin = document.body.getElementsByClassName('pin pin--' + floorLevel + "-" + count)[0];
         /*var level = document.body.getElementsByClassName('map map--1')[0];
         level.style.webkitPerspective = "3500px";
@@ -113,5 +113,4 @@ function reGroupPin(level) {
                                         </span>
                                     </a>
         */
-    }
 };

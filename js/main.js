@@ -71,6 +71,7 @@
 		contentEl = document.querySelector('.content'),
 		// content close ctrl
 		contentCloseCtrl = contentEl.querySelector('button.content__button'),
+		pinMoveCtrl = contentEl.querySelector('button.pin__button'),
 		// check if a content item is opened
 		isOpenContentArea,
 		// check if currently animating/navigating
@@ -166,6 +167,10 @@
 			closeContentArea();
 		});
 
+		pinMoveCtrl.addEventListener('click', function() {
+			dropPin();
+		});
+
 		// clicking on a listed space: open level - shows space
 		spaces.forEach(function(space) {
 			var spaceItem = space.parentNode,
@@ -223,12 +228,13 @@
 			isExpanded = true;
 		}, 'transform');
 		
+		/*
 		try {
 			reGroupPin(selectedLevel);
 		}
 		catch(e) {
 		}
-
+		*/
 		// hide surroundings element
 		hideSurroundings();
 		
@@ -277,7 +283,7 @@
 		spacesList.filter(function(item) { 
 			//console.log('__________________________________');
 			//console.log(item);
-			return (item.values().level === selectedLevel.toString()) || (item.values().level === "-1"); 
+			return (item.values().level === selectedLevel.toString()) || (item.values().level === "-999"); 
 		});
 	}
 
@@ -295,6 +301,25 @@
 	function removePins(levelEl) {
 		var levelEl = levelEl || mallLevels[selectedLevel - 1];
 		classie.remove(levelEl.querySelector('.level__pins'), 'level__pins--active');
+	}
+
+	/**
+	 * Drop chosen pin
+	 */
+	function dropPin() {
+		let pin = document.querySelector('.pin--active');
+		let level = document.querySelector('.level__pins--active');
+		let listItem = document.querySelector('.list__item--active');
+			listItem.setAttribute("data-level", "-999");
+			listItem.setAttribute("data-category", "2");
+
+		level.removeChild(pin);
+		
+		/*
+		pin.setAttribute("data-category", "-999");
+		pin.style['top'] = top + 'px';
+		pin.style['left'] = left + 'px';
+		*/
 	}
 
 	/**
@@ -450,6 +475,7 @@
 		showSpace(true);
 		// show close ctrl
 		classie.remove(contentCloseCtrl, 'content__button--hidden');
+		classie.remove(pinMoveCtrl, 'pin__button--hidden');
 		// resize mall area
 		classie.add(mall, 'mall--content-open');
 		// disable mall nav ctrls
@@ -471,7 +497,10 @@
 			});
 		}
 		// map pin gets selected
-		classie.add(mallLevelsEl.querySelector('.pin[data-space="' + spaceref + '"]'), 'pin--active');
+		if(mallLevelsEl.querySelector('.pin[data-space="' + spaceref + '"]')) {
+			classie.add(mallLevelsEl.querySelector('.pin[data-space="' + spaceref + '"]'), 'pin--active');
+		}
+		
 	}
 
 	/**
@@ -483,6 +512,7 @@
 		hideSpace();
 		// hide close ctrl
 		classie.add(contentCloseCtrl, 'content__button--hidden');
+		classie.add(pinMoveCtrl, 'pin__button--hidden');
 		// resize mall area
 		classie.remove(mall, 'mall--content-open');
 		// enable mall nav ctrls
@@ -501,7 +531,10 @@
 		// hide content
 		classie.remove(contentItem, 'content__item--current');
 		// map pin gets unselected
-		classie.remove(mallLevelsEl.querySelector('.pin[data-space="' + spaceref + '"]'), 'pin--active');
+		if(mallLevelsEl.querySelector('.pin[data-space="' + spaceref + '"]')) {
+			classie.remove(mallLevelsEl.querySelector('.pin[data-space="' + spaceref + '"]'), 'pin--active');
+		}
+		
 		// remove class active (if any) from current list item
 		var activeItem = spacesEl.querySelector('li.list__item--active');
 		if( activeItem ) {
