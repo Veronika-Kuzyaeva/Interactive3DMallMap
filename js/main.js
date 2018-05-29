@@ -71,6 +71,7 @@
 		contentEl = document.querySelector('.content'),
 		// content close ctrl
 		contentCloseCtrl = contentEl.querySelector('button.content__button'),
+		// removing/adding pin
 		pinMoveCtrl = contentEl.querySelector('button.pin__button'),
 		// check if a content item is opened
 		isOpenContentArea,
@@ -78,6 +79,9 @@
 		isNavigating,
 		// check if all levels are shown or if one level is shown (expanded)
 		isExpanded,
+		
+		// listjs initiliazation (all mall´s spaces)
+		spacesList = initList(list),
 		// spaces list element
 		spacesListEl = document.getElementById('spaces-list'),
 		// spaces list ul
@@ -88,8 +92,17 @@
 		spaceref,
 		// sort by ctrls
 		sortByNameCtrl = document.querySelector('#sort-by-name'),
-		// listjs initiliazation (all mall´s spaces)
-		spacesList = new List('spaces-list', { valueNames: ['list__link', { data: ['level'] }, { data: ['category'] } ]} ),
+		
+		/* = new List('spaces-list', 
+			{ 
+				valueNames: 
+				[ 
+					'list__link', 
+					{ data: ['level'] },		   
+					{ data: ['category'] } 
+				]
+			} 
+		),*/
 
 		// smaller screens:
 		// open search ctrl
@@ -99,8 +112,40 @@
 		// close search ctrl
 		closeSearchCtrl = spacesListEl.querySelector('button.close-search');
 
+	function initList(list) {
+		//spacesList.
+		var options = {
+			valueNames: 
+			[ 
+				'list__link',
+				{ data: ['level'] },		   
+				{ data: ['category'] },
+				{ data: ['space'] } 
+			],
+			item: '<li class="list__item" data-level="" data-category="" data-space="">' + 
+					'<a href="#" class="list__link"></a>' + 
+				  '</li>'
+		};
+		
+		var values = [];
+
+		for (let index in list) {
+			// list[index]['floor_id'], category, list[index]['equip_id'], list[index]['equip_name']
+			values.push({
+				list__link: list[index]['equip_name'],
+				level: list[index]['floor_id'],
+				category: 1,
+				space: list[index]['equip_id']
+			});
+		}		  
+		
+		return new List('spaces-list', options, values);
+		
+	}
+
 	function init() {
 		// init/bind events
+		//console.log(spaces);
 		initEvents();
 	}
 
@@ -169,6 +214,9 @@
 
 		pinMoveCtrl.addEventListener('click', function() {
 			dropPin();
+			console.log(spacesList);
+			spacesList.update();
+			console.log(spacesList);
 		});
 
 		// clicking on a listed space: open level - shows space
@@ -283,7 +331,7 @@
 		spacesList.filter(function(item) { 
 			//console.log('__________________________________');
 			//console.log(item);
-			return (item.values().level === selectedLevel.toString()) || (item.values().level === "-999"); 
+			return (item._values.level.toString() === selectedLevel.toString()) || (item._values.level.toString() === "-999"); 
 		});
 	}
 
