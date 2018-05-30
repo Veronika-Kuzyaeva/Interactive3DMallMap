@@ -29,15 +29,12 @@
 
   if ( 'classList' in document.documentElement ) {
     hasClass = function( elem, c ) {
-      console.info(elem);
       return elem.classList.contains( c );
     };
     addClass = function( elem, c ) {
-      console.info(elem);
       elem.classList.add( c );
     };
     removeClass = function( elem, c ) {
-      console.info(elem);
       elem.classList.remove( c );
     };
   }

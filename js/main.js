@@ -92,17 +92,6 @@
 		spaceref,
 		// sort by ctrls
 		sortByNameCtrl = document.querySelector('#sort-by-name'),
-		
-		/* = new List('spaces-list', 
-			{ 
-				valueNames: 
-				[ 
-					'list__link', 
-					{ data: ['level'] },		   
-					{ data: ['category'] } 
-				]
-			} 
-		),*/
 
 		// smaller screens:
 		// open search ctrl
@@ -111,9 +100,13 @@
 		containerEl = document.querySelector('.container'),
 		// close search ctrl
 		closeSearchCtrl = spacesListEl.querySelector('button.close-search');
-
+	
+	/**
+	 * Add all object in the List
+	 * @param {Array} list 
+	 */
 	function initList(list) {
-		//spacesList.
+		//spacesList
 		var options = {
 			valueNames: 
 			[ 
@@ -130,22 +123,23 @@
 		var values = [];
 
 		for (let index in list) {
-			// list[index]['floor_id'], category, list[index]['equip_id'], list[index]['equip_name']
 			values.push({
 				list__link: list[index]['equip_name'],
 				level: list[index]['floor_id'],
-				category: 1,
+				category: (list[index]['floor_id'].toString() === "-999") ? 2 : 1,
 				space: list[index]['equip_id']
 			});
 		}		  
 		
-		return new List('spaces-list', options, values);
+		var newList = new List('spaces-list', options, values);
+		newList.sort('category', { order: "asc" });
+
+		return newList;
 		
 	}
 
 	function init() {
 		// init/bind events
-		//console.log(spaces);
 		initEvents();
 	}
 
@@ -198,7 +192,6 @@
 				}
 			});
 			pin.addEventListener('click', function(ev) {
-				console.log("CLIIIICK!!");
 				ev.preventDefault();
 				// open content for this pin
 				openContent(pin.getAttribute('data-space'));
@@ -214,9 +207,7 @@
 
 		pinMoveCtrl.addEventListener('click', function() {
 			dropPin();
-			console.log(spacesList);
 			spacesList.update();
-			console.log(spacesList);
 		});
 
 		// clicking on a listed space: open level - shows space
@@ -329,8 +320,6 @@
 	 */
 	function showLevelSpaces() {
 		spacesList.filter(function(item) { 
-			//console.log('__________________________________');
-			//console.log(item);
 			return (item._values.level.toString() === selectedLevel.toString()) || (item._values.level.toString() === "-999"); 
 		});
 	}
@@ -357,17 +346,19 @@
 	function dropPin() {
 		let pin = document.querySelector('.pin--active');
 		let level = document.querySelector('.level__pins--active');
-		let listItem = document.querySelector('.list__item--active');
-			listItem.setAttribute("data-level", "-999");
-			listItem.setAttribute("data-category", "2");
+		let content = document.querySelector('.content__item--current');
+			content.setAttribute("data-category", 2);
+
+		let changebleSpace = spacesList.get("space", pin.getAttribute("data-space"))[0];
+		
+		changebleSpace.values({
+			category: 2,
+			level: "-999"
+		});
+		
+		spacesList.sort('category', { order: "asc" });
 
 		level.removeChild(pin);
-		
-		/*
-		pin.setAttribute("data-category", "-999");
-		pin.style['top'] = top + 'px';
-		pin.style['left'] = left + 'px';
-		*/
 	}
 
 	/**

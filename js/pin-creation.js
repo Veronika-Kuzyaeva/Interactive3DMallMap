@@ -91,9 +91,7 @@ function reGroupPin(level) {
 /*
         x = 2 * x / vm;
         y = 2 * y / vm;
-*/
-        console.info(x + " & " + y)
-        
+*/        
         createPin(x, y);
     }
 };

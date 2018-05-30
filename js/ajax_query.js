@@ -1,5 +1,4 @@
 function setAjaxQuery(X=5, Y=5, floor=2, building = 1) {
-    console.info('working');
 
     var json = {
         X: X,

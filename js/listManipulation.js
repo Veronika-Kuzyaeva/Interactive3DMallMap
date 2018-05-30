@@ -3,11 +3,7 @@
 function showList(list, category) {
     //initList(list);
     for (let index in list) {
-        console.info(index);
         
-        //Add item to list
-        //addRow(list[index]['floor_id'], category, list[index]['equip_id'], list[index]['equip_name']);
-
         //Add content to item
         addContent(list[index]['equip_id'], category, list[index]['equip_name'], list[index]['description'])
 
@@ -34,7 +30,6 @@ function showList(list, category) {
             aPin.appendChild(divPin);
 
             let divLevelPins = document.body.getElementsByClassName('level__pins')[list[index]['floor_id']-1];
-            console.info(divLevelPins);
             
             divLevelPins.appendChild(aPin);
             createPin(list[index]['Xasis'], list[index]['Yasis'], list[index]['equip_id'], list[index]['floor_id']);
@@ -44,29 +39,8 @@ function showList(list, category) {
     
 }
 
-console.log(list);
 showList(list.filter((item) => item.building_id == 1), 1);
 showList(list.filter((item) => item.building_id == -999), 2);
-
-function addRow(floor_id, category, equip_id, equip_name) {
-    var newList = document.querySelector('.container>aside>ul');
-
-    let li = document.createElement('li');
-        li.setAttribute("class", "list__item");
-        li.setAttribute("data-level", floor_id);
-        li.setAttribute('data-category', category);
-        li.setAttribute('data-space', equip_id);
-    
-
-    let a = document.createElement('a');
-        a.setAttribute('href', '#');
-        a.setAttribute('class', 'list__link');
-        a.innerText = equip_name;
-
-    li.appendChild(a);
-
-    newList.appendChild(li);
-}
 
 function addContent(equip_id, category, equip_name, description) {
     let itemMenu = document.getElementsByClassName('content')[0];
