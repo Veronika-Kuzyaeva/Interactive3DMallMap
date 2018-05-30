@@ -71,12 +71,17 @@
 		contentEl = document.querySelector('.content'),
 		// content close ctrl
 		contentCloseCtrl = contentEl.querySelector('button.content__button'),
+		// removing/adding pin
+		pinMoveCtrl = contentEl.querySelector('button.pin__button'),
 		// check if a content item is opened
 		isOpenContentArea,
 		// check if currently animating/navigating
 		isNavigating,
 		// check if all levels are shown or if one level is shown (expanded)
 		isExpanded,
+		
+		// listjs initiliazation (all mall´s spaces)
+		spacesList = initList(list),
 		// spaces list element
 		spacesListEl = document.getElementById('spaces-list'),
 		// spaces list ul
@@ -87,8 +92,6 @@
 		spaceref,
 		// sort by ctrls
 		sortByNameCtrl = document.querySelector('#sort-by-name'),
-		// listjs initiliazation (all mall´s spaces)
-		spacesList = new List('spaces-list', { valueNames: ['list__link', { data: ['level'] }, { data: ['category'] } ]} ),
 
 		// smaller screens:
 		// open search ctrl
@@ -97,6 +100,43 @@
 		containerEl = document.querySelector('.container'),
 		// close search ctrl
 		closeSearchCtrl = spacesListEl.querySelector('button.close-search');
+	
+	/**
+	 * Add all object in the List
+	 * @param {Array} list 
+	 */
+	function initList(list) {
+		//spacesList
+		var options = {
+			valueNames: 
+			[ 
+				'list__link',
+				{ data: ['level'] },		   
+				{ data: ['category'] },
+				{ data: ['space'] } 
+			],
+			item: '<li class="list__item" data-level="" data-category="" data-space="">' + 
+					'<a href="#" class="list__link"></a>' + 
+				  '</li>'
+		};
+		
+		var values = [];
+
+		for (let index in list) {
+			values.push({
+				list__link: list[index]['equip_name'],
+				level: list[index]['floor_id'],
+				category: (list[index]['floor_id'].toString() === "-999") ? 2 : 1,
+				space: list[index]['equip_id']
+			});
+		}		  
+		
+		var newList = new List('spaces-list', options, values);
+		newList.sort('category', { order: "asc" });
+
+		return newList;
+		
+	}
 
 	function init() {
 		// init/bind events
@@ -165,6 +205,11 @@
 			closeContentArea();
 		});
 
+		pinMoveCtrl.addEventListener('click', function() {
+			dropPin();
+			spacesList.update();
+		});
+
 		// clicking on a listed space: open level - shows space
 		spaces.forEach(function(space) {
 			var spaceItem = space.parentNode,
@@ -222,12 +267,13 @@
 			isExpanded = true;
 		}, 'transform');
 		
+		/*
 		try {
 			reGroupPin(selectedLevel);
 		}
 		catch(e) {
 		}
-
+		*/
 		// hide surroundings element
 		hideSurroundings();
 		
@@ -274,7 +320,7 @@
 	 */
 	function showLevelSpaces() {
 		spacesList.filter(function(item) { 
-			return item.values().level === selectedLevel.toString(); 
+			return (item._values.level.toString() === selectedLevel.toString()) || (item._values.level.toString() === "-999"); 
 		});
 	}
 
@@ -292,6 +338,27 @@
 	function removePins(levelEl) {
 		var levelEl = levelEl || mallLevels[selectedLevel - 1];
 		classie.remove(levelEl.querySelector('.level__pins'), 'level__pins--active');
+	}
+
+	/**
+	 * Drop chosen pin
+	 */
+	function dropPin() {
+		let pin = document.querySelector('.pin--active');
+		let level = document.querySelector('.level__pins--active');
+		let content = document.querySelector('.content__item--current');
+			content.setAttribute("data-category", 2);
+
+		let changebleSpace = spacesList.get("space", pin.getAttribute("data-space"))[0];
+		
+		changebleSpace.values({
+			category: 2,
+			level: "-999"
+		});
+		
+		spacesList.sort('category', { order: "asc" });
+
+		level.removeChild(pin);
 	}
 
 	/**
@@ -428,12 +495,14 @@
 		}
 
 		// remove class selected (if any) from current space
+		/*
 		var activeSpaceArea = mallLevels[selectedLevel - 1].querySelector('svg > .map__space--selected');
 		if( activeSpaceArea ) {
 			classie.remove(activeSpaceArea, 'map__space--selected');
 		}
 		// svg area gets selected
 		classie.add(mallLevels[selectedLevel - 1].querySelector('svg > .map__space[data-space="' + spaceref + '"]'), 'map__space--selected');
+		*/
 	}
 
 	/**
@@ -445,6 +514,7 @@
 		showSpace(true);
 		// show close ctrl
 		classie.remove(contentCloseCtrl, 'content__button--hidden');
+		classie.remove(pinMoveCtrl, 'pin__button--hidden');
 		// resize mall area
 		classie.add(mall, 'mall--content-open');
 		// disable mall nav ctrls
@@ -466,7 +536,10 @@
 			});
 		}
 		// map pin gets selected
-		classie.add(mallLevelsEl.querySelector('.pin[data-space="' + spaceref + '"]'), 'pin--active');
+		if(mallLevelsEl.querySelector('.pin[data-space="' + spaceref + '"]')) {
+			classie.add(mallLevelsEl.querySelector('.pin[data-space="' + spaceref + '"]'), 'pin--active');
+		}
+		
 	}
 
 	/**
@@ -478,6 +551,7 @@
 		hideSpace();
 		// hide close ctrl
 		classie.add(contentCloseCtrl, 'content__button--hidden');
+		classie.add(pinMoveCtrl, 'pin__button--hidden');
 		// resize mall area
 		classie.remove(mall, 'mall--content-open');
 		// enable mall nav ctrls
@@ -496,17 +570,23 @@
 		// hide content
 		classie.remove(contentItem, 'content__item--current');
 		// map pin gets unselected
-		classie.remove(mallLevelsEl.querySelector('.pin[data-space="' + spaceref + '"]'), 'pin--active');
+		if(mallLevelsEl.querySelector('.pin[data-space="' + spaceref + '"]')) {
+			classie.remove(mallLevelsEl.querySelector('.pin[data-space="' + spaceref + '"]'), 'pin--active');
+		}
+		
 		// remove class active (if any) from current list item
 		var activeItem = spacesEl.querySelector('li.list__item--active');
 		if( activeItem ) {
 			classie.remove(activeItem, 'list__item--active');
 		}
 		// remove class selected (if any) from current space
+		/*
 		var activeSpaceArea = mallLevels[selectedLevel - 1].querySelector('svg > .map__space--selected');
+		
 		if( activeSpaceArea ) {
 			classie.remove(activeSpaceArea, 'map__space--selected');
 		}
+		*/
 	}
 
 	/**

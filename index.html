@@ -16,9 +16,14 @@
 		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 		
 		<script src="js/modernizr-custom.js"></script>
+		<script src="js/list.min.js"></script>
+		<script src="js/snap.svg-min.js"></script>
+		
+		<script src="js/ajax_query.js"></script>
+
 	</head>
 	<body>
-		<svg class="hidden">
+		<svg class="hidden" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
 			<defs>
 				<symbol id="icon-pin" viewBox="0 0 200 300">
 					<title>pin</title>
@@ -283,6 +288,25 @@
 										<svg class="icon icon--logo icon--appleheart"><use xlink:href="#icon-appleheart"></use></svg>
 									</span>
 								</a>
+								
+							
+							
+								<a class="pin pin--1-1" data-category="1" data-space="1.01" href="#" aria-label="Pin for Apple Heart">
+									<span class="pin__icon">
+										<svg class="icon icon--pin"><use xlink:href="#icon-pin"></use></svg>
+										<svg class="icon icon--logo icon--appleheart"><use xlink:href="#icon-appleheart"></use></svg>
+									</span>
+								</a>
+							
+								
+								<a class="pin pin--1-2" data-category="1" data-space="1.02" href="#" aria-label="Pin for Apple Heart">
+									<span class="pin__icon">
+										<svg class="icon icon--pin"><use xlink:href="#icon-pin"></use></svg>
+										<svg class="icon icon--logo icon--appleheart"><use xlink:href="#icon-appleheart"></use></svg>
+									</span>
+								</a>
+								-->
+								<!--
 								<a class="pin pin--1-2" data-category="1" data-space="1.02" href="#" aria-label="Pin for Crazy Banana">
 									<span class="pin__icon">
 										<svg class="icon icon--pin"><use xlink:href="#icon-pin"></use></svg>
@@ -313,19 +337,28 @@
 										<svg class="icon icon--logo icon--avocado"><use xlink:href="#icon-avocado"></use></svg>
 									</span>
 								</a>
-								<a class="pin pin--1-7" data-category="1" data-space="1.07" href="#" aria-label="Pin for Raw Delight">
+							
+								<a class="pin pin--1-3" data-category="1" data-space="1.03" href="#" aria-label="Pin for Staff">
 									<span class="pin__icon">
 										<svg class="icon icon--pin"><use xlink:href="#icon-pin"></use></svg>
 										<svg class="icon icon--logo icon--cake"><use xlink:href="#icon-cake"></use></svg>
 									</span>
 								</a>
-							-->
+
+								<a class="pin pin--1-9" data-category="1" data-space="1.03" href="#" aria-label="Pin for Staff">
+									<span class="pin__icon">
+										<svg class="icon icon--pin"><use xlink:href="#icon-pin"></use></svg>
+										<svg class="icon icon--logo icon--cake"><use xlink:href="#icon-cake"></use></svg>
+									</span>
+								</a>
+							
 								<a class="pin pin--1-8" data-category="1" data-space="1.08" href="#" aria-label="Pin for The Wizard">
 									<span class="pin__icon">
 										<svg class="icon icon--pin"><use xlink:href="#icon-pin"></use></svg>
 										<svg class="icon icon--logo icon--mushroom"><use xlink:href="#icon-mushroom"></use></svg>
 									</span>
 								</a>
+								-->
 								<!--
 								<a class="pin pin--1-9" data-category="1" data-space="1.09" href="#" aria-label="Pin for Smoothies &amp; Soul">
 									<span class="pin__icon">
@@ -574,6 +607,14 @@
 					<button class="boxbutton mallnav__button--down" aria-label="Go down"><svg class="icon icon--angle-down"><use xlink:href="#icon-angle-down"></use></svg></button>
 				</nav>
 				<div class="content">
+					<div>
+
+					</div>
+					<div>
+						
+					</div>
+
+
 					<!--
 					<div class="content__item" data-space="1.01" data-category="1">
 						<h3 class="content__item-title">Apple Heart</h3>
@@ -585,7 +626,18 @@
 							<p class="content__desc">Burdock celery - salsify, tomatillo. Bitter gourd horseradish leaves radicchio, celeriac miner's lettuce kurrat arugula fluted pumpkin turnip, arracacha water spinach nopal.</p>
 						</div>
 					</div>
-					
+
+					<div class="content__item" data-space="1.02" data-category="1">
+						<h3 class="content__item-title">Apple Heart</h3>
+						<div class="content__item-details">
+							<p class="content__meta">
+								<span class="content__meta-item"><strong>Opening Hours:</strong> 6:30AM &mdash; 11:30PM</span> 
+								<span class="content__meta-item"><strong>Phone:</strong> (0) 66 5738902</span>
+							</p>
+							<p class="content__desc">Testing pin.</p>
+						</div>
+					</div>
+					<!--
 					<div class="content__item" data-space="1.02" data-category="1">
 						<h3 class="content__item-title">Crazy Banana</h3>
 						<div class="content__item-details">
@@ -892,7 +944,7 @@
 					</div>
 				-->
 					<button class="boxbutton boxbutton--dark content__button content__button--hidden" aria-label="Close details"><svg class="icon icon--cross"><use xlink:href="#icon-cross"></use></svg></button>
-				
+					<button class="boxbutton boxbutton--dark pin__button pin__button--hidden" aria-label="Pin manipulation"><svg class="icon icon--cross"><use xlink:href="#icon-pin"></use></svg></button>				
 				</div>
 				<!-- content -->
 			</div>
@@ -906,10 +958,18 @@
 					<input id="sort-by-name" class="label__checkbox" type="checkbox" aria-label="Show alphabetically"/>
 					<label class="label__text">A - Z</label>
 				</span>
+				<!--
+				<button onclick = 'showList(list)'>
+					
+				</button>
+				-->
 				<ul class="list grouped-by-category">
-					<li class="list__item" data-level="1" data-category="1" data-space="1.08"><a href="#" class="list__link">The Wizard</a></li>
+					
 					<!--
+					<li class="list__item" data-level="1" data-category="1" data-space="1.08"><a href="#" class="list__link">The Wizard</a></li>
 					<li class="list__item" data-level="1" data-category="1" data-space="1.01"><a href="#" class="list__link">Apple Heart</a></li>
+					
+					
 					<li class="list__item" data-level="1" data-category="1" data-space="1.02"><a href="#" class="list__link">Crazy Banana</a></li>
 					<li class="list__item" data-level="2" data-category="1" data-space="2.05"><a href="#" class="list__link">The Eggplanthead</a></li>
 					<li class="list__item" data-level="1" data-category="1" data-space="1.09"><a href="#" class="list__link">Smoothies &amp; Soul</a></li>
@@ -945,11 +1005,13 @@
 			<!-- /spaces-list -->
 		</div>
 		<!-- /container -->
-		<script src="js/classie.js"></script>
-		<script src="js/list.min.js"></script>
-		<script src="js/main.js"></script>
-		<!--
 		<script src="js/pin-creation.js"></script>
+		<script src="js/listManipulation.js"></script>
+		<script src="js/classie.js"></script>
+		<script src="js/main.js"></script>
+		
+		<!--
+		
 		<script src="js/ajax_query.js"></script>
 		-->
 	</body>

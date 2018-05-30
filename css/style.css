@@ -598,7 +598,15 @@ button:focus {
 	transition: opacity 0.3s 0.7s;
 }
 
-.content__button--hidden {
+.pin__button {
+	position: absolute;
+	top: -100%;
+	right: 6.2%;
+	-webkit-transition: opacity 0.3s 0.7s;
+	transition: opacity 0.3s 0.7s;
+}
+
+.content__button--hidden, .pin__button--hidden {
 	pointer-events: none;
 	opacity: 0;
 	-webkit-transition: none;
@@ -712,13 +720,13 @@ button:focus {
 
 .grouped-by-category [data-category='1']:first-child::before,
 .grouped-by-category :not([data-category='1']) + [data-category='1']::before {
-	content: 'Nourish & Refresh';
+	content: 'Размещенные объекты';
 	color: #7cbf7f;
 }
 
 .grouped-by-category [data-category='2']:first-child::before,
 .grouped-by-category :not([data-category='2']) + [data-category='2']::before {
-	content: 'Learn & Create';
+	content: 'Ожидают размещения';
 	color: #6584c7;
 }
 
@@ -786,6 +794,8 @@ button:focus {
 	transform-style: preserve-3d;
 }
 
+
+
 .pin__icon {
 	position: relative;
 	display: block;
@@ -805,6 +815,7 @@ button:focus {
 	-webkit-transform: translate3d(0,0,0);
 	transform: translate3d(0,0,0);
 }
+
 
 .pin:nth-child(2) .pin__icon {
 	-webkit-transition-delay: 0.05s;
@@ -840,7 +851,7 @@ button:focus {
 }
 
 .pin[data-category='1'] .icon--pin {
-	fill: #7cbf7f;
+	fill: #2ecc71;
 }
 .pin[data-category='2'] .icon--pin {
 	fill: #6584c7;
@@ -852,10 +863,12 @@ button:focus {
 	fill: #8d65e0;
 }
 
+/*
 .pin--active .icon--pin {
-	stroke: #515158;
-	stroke-width: 15px;
+	stroke: #457a49;
+	stroke-width: 3px;
 }
+*/
 
 .icon--pin {
 	width: 100%;
