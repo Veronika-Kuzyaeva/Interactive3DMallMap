@@ -4,12 +4,7 @@
     
    
     let divLevels = document.querySelector(".levels");
-
-    let svgPin = Snap();
-    Snap.load("img/pin.svg", (f) => {
-        svgPin.append(f.select("symbol"));
-    });
-
+    
     floors.sort((a, b) => {
         return a.level - b.level;
     });
