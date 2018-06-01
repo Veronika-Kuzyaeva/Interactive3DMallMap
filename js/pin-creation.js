@@ -88,27 +88,17 @@ function reGroupPin(level) {
         var vm = (document.body.clientWidth >= document.body.clientHeight) ? 
         (document.body.clientWidth / 100) :
         (document.body.clientHeight / 100)
-/*
-        x = 2 * x / vm;
-        y = 2 * y / vm;
-*/        
         createPin(x, y);
     }
 };
-function createPin(left, top, count = 1, floorLevel = 1) {
-        var pin = document.body.getElementsByClassName('pin pin--' + floorLevel + "-" + count)[0];
-        /*var level = document.body.getElementsByClassName('map map--1')[0];
-        level.style.webkitPerspective = "3500px";
-        level.style.webkitPerspectiveOrigin = "0% 50%";*/
 
+let svgPin = Snap();
+Snap.load("img/pin.svg", (f) => {
+    svgPin.append(f.select("symbol"));
+});
+
+function createPin(left, top, count, floorLevel) {
+        var pin = document.body.getElementsByClassName('pin pin--' + floorLevel + "-" + count)[0];
         pin.style['top'] = top + 'px';
         pin.style['left'] = left + 'px';
-        /**
-         * <a class="pin pin--1-1" data-category="1" data-space="1.01" href="#" aria-label="Pin for Apple Heart">
-                                        <span class="pin__icon">
-                                            <svg class="icon icon--pin"><use xlink:href="#icon-pin"></use></svg>
-                                            <svg class="icon icon--logo icon--appleheart"><use xlink:href="#icon-appleheart"></use></svg>
-                                        </span>
-                                    </a>
-        */
 };

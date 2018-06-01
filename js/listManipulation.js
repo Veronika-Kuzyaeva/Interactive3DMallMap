@@ -1,5 +1,3 @@
-
-
 function showList(list, category) {
     //initList(list);
     for (let index in list) {
@@ -18,15 +16,16 @@ function showList(list, category) {
                 aPin.setAttribute('aria-label', 'Pin for ' + 
                                     list[index]['equip_name']);                                
             
-            let divPin = document.createElement('span');
+            let divPin = document.createElement('div');
                 divPin.setAttribute('class', 'pin__icon');
             
             let svgPin = Snap();
             Snap.load("img/pin.svg", (f) => {
                 svgPin.append(f.select("symbol"));
-                svgPin.appendTo(divPin);
+                
             });
-
+            svgPin.appendTo(divPin);
+            console.log(divPin);
             aPin.appendChild(divPin);
 
             let divLevelPins = document.body.getElementsByClassName('level__pins')[list[index]['floor_id']-1];
@@ -65,5 +64,5 @@ function addContent(equip_id, category, equip_name, description) {
     divContent.appendChild(head);
     divContent.appendChild(divDetails);
 
-    itemMenu.insertBefore(divContent, itemMenu.children[1]);
+    itemMenu.insertBefore(divContent, itemMenu.children[0]);
 }

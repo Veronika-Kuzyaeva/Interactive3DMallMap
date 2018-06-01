@@ -450,6 +450,11 @@ button:focus {
 
 /* Level map */
 
+.map {
+	width: 100;
+	height: 100;
+}
+
 .map__ground {
 	fill: #d7d7dc;
 }
@@ -816,7 +821,7 @@ button:focus {
 	transform: translate3d(0,0,0);
 }
 
-
+/*
 .pin:nth-child(2) .pin__icon {
 	-webkit-transition-delay: 0.05s;
 	transition-delay: 0.05s;
@@ -849,20 +854,21 @@ button:focus {
 	-webkit-transition-delay: 0.4s;
 	transition-delay: 0.4s;
 }
-
+*/
 .pin[data-category='1'] .icon--pin {
 	fill: #2ecc71;
 }
 .pin[data-category='2'] .icon--pin {
 	fill: #6584c7;
 }
+/*
 .pin[data-category='3'] .icon--pin {
 	fill: #dc4b7c;
 }
 .pin[data-category='4'] .icon--pin {
 	fill: #8d65e0;
 }
-
+*/
 /*
 .pin--active .icon--pin {
 	stroke: #457a49;
@@ -892,7 +898,7 @@ button:focus {
 	fill-opacity: 1;
 }
 
-/* Pins for floor 1 */
+/* Pins for floor 1 
 
 .pin--1-1 { top: 13vmin; left: 4vmin; }
 .pin--1-2 { top: 15vmin; left: 15vmin; }
@@ -904,7 +910,7 @@ button:focus {
 .pin--1-8 { top: 9vmin; left: 59vmin; display: none}
 .pin--1-9 { top: 8vmin; left: 51vmin; }
 
-/* Pins for floor 2 */
+/* Pins for floor 2 
 .pin--2-1 { top: 7vmin; left: 22vmin; }
 .pin--2-2 { top: 39vmin; left: 5vmin; }
 .pin--2-3 { top: 21vmin; left: 84vmin; }
@@ -914,7 +920,7 @@ button:focus {
 .pin--2-7 { top: 34vmin; left: 37vmin; }
 .pin--2-8 { top: 52vmin; left: 74vmin; }
 
-/* Pins for floor 3 */
+/* Pins for floor 3 
 .pin--3-1 { top: 17vmin; left: 15vmin; }
 .pin--3-2 { top: 42vmin; left: 5vmin; }
 .pin--3-3 { top: 19vmin; left: 85vmin; }
@@ -923,7 +929,7 @@ button:focus {
 .pin--3-6 { top: 30vmin; left: 57vmin; }
 .pin--3-7 { top: 32vmin; left: 37vmin; }
 
-/* Pins for floor 4 */
+/* Pins for floor 4 
 .pin--4-1 { top: 55vmin; left: 21vmin; }
 .pin--4-2 { top: 18vmin; left: 20vmin; }
 .pin--4-3 { top: 21vmin; left: 88vmin; }
