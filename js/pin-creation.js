@@ -92,11 +92,6 @@ function reGroupPin(level) {
     }
 };
 
-let svgPin = Snap();
-Snap.load("img/pin.svg", (f) => {
-    svgPin.append(f.select("symbol"));
-});
-
 function createPin(left, top, count, floorLevel) {
         var pin = document.body.getElementsByClassName('pin pin--' + floorLevel + "-" + count)[0];
         pin.style['top'] = top + 'px';

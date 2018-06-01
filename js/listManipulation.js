@@ -1,4 +1,5 @@
 function showList(list, category) {
+    
     //initList(list);
     for (let index in list) {
         
@@ -22,8 +23,8 @@ function showList(list, category) {
             let svgPin = Snap();
             Snap.load("img/pin.svg", (f) => {
                 svgPin.append(f.select("symbol"));
-                
             });
+            
             svgPin.appendTo(divPin);
             console.log(divPin);
             aPin.appendChild(divPin);
