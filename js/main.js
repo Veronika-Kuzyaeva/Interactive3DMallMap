@@ -206,8 +206,9 @@
 		});
 
 		pinMoveCtrl.addEventListener('click', function() {
+			let content = document.querySelector('.content__item--current');
+			console.log(content);
 			dropPin();
-			spacesList.update();
 		});
 
 		// clicking on a listed space: open level - shows space
