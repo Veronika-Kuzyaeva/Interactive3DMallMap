@@ -80,25 +80,12 @@ var list = [
   }
 ]
 
-var floors = [
-  {
-    id: "2",
+var floors = [];
+
+for(var i = 1; i <= 20; i++) {
+  floors.push({
+    id: `${i}`,
     link: "img/buildings/first_building/level_2.svg",
-    level: 2
-  },
-  {
-    id: "1",
-    link: "img/buildings/first_building/level_1.svg",
-    level: 1
-  },
-  {
-    id: "3",
-    link: "img/buildings/first_building/level_3.svg",
-    level: 3
-  },
-  {
-    id: "4",
-    link: "img/buildings/first_building/level_4.svg",
-    level: 4
-  }
-]
+    level: i
+  });
+}
