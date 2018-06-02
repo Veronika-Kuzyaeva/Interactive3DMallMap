@@ -247,7 +247,7 @@ button:focus {
 	position: absolute;
 	z-index: 100;
 	top: -2em;
-    left: 3.5em;
+    left: 1em;
 	white-space: nowrap;
 	color: #7d7d86;
 	-webkit-transform: rotateZ(45deg) rotateX(-70deg) translateZ(0vmin);
@@ -268,6 +268,7 @@ button:focus {
 	transform: rotateZ(-20deg) rotateZ(45deg) rotateX(-70deg) translateZ(5vmin) translateX(5vmin) translateY(-10vmin);
 }
 
+/*
 .level--1::after {
 	content: 'L1';
 }
@@ -283,13 +284,13 @@ button:focus {
 .level--4::after {
 	content: 'L4';
 }
-
+*/
 .level:not(:first-child) {
 	position: absolute;
 	top: 0;
 	left: 0;
 }
-
+/*
 .level--2 {
 	-webkit-transform: translateZ(10vmin);
 	transform: translateZ(10vmin);
@@ -304,18 +305,18 @@ button:focus {
 	-webkit-transform: translateZ(30vmin);
 	transform: translateZ(30vmin);
 }
-
+*/
 
 /* Selection transitions */
 
+/*
 .levels--selected-1 .level:not(.level--1),
 .levels--selected-2 .level:not(.level--2),
 .levels--selected-3 .level:not(.level--3),
 .levels--selected-4 .level:not(.level--4) {
 	opacity: 0;
-	/* fade out all others */
 }
-
+*/
 /* Other levels */
 
 .level--current ~ .level {
@@ -323,6 +324,7 @@ button:focus {
 	transform: translateZ(60vmin);
 }
 
+/*
 .levels--selected-2 .level--1,
 .levels--selected-3 .level--1,
 .levels--selected-4 .level--1,
@@ -332,14 +334,15 @@ button:focus {
 	-webkit-transform: translateZ(-60vmin);
 	transform: translateZ(-60vmin);
 }
-
+*/
 /* Delays */
 /* 1 */
-
+/*
 .levels--selected-1 .level--3,
 .levels--selected-2 .level--3,
 .levels--selected-3 .level--2,
 .levels--selected-4 .level--2 {
+	-moz-transition-delay: 0.1s;
 	-webkit-transition-delay: 0.1s;
 	transition-delay: 0.1s;
 }
@@ -350,18 +353,20 @@ button:focus {
 .levels--selected-3 .level--current,
 .levels--selected-3 .level--current::after,
 .levels--selected-4 .level--3 {
-	-webkit-transition-delay: 0.25s;
-	transition-delay: 0.25s;
+	-moz-transition-delay: 0.30s;
+	-webkit-transition-delay: 0.30s;
+	transition-delay: 0.305s;
 }
 
 .levels--selected-1 .level--current,
 .levels--selected-1 .level--current::after,
 .levels--selected-4 .level--current,
 .levels--selected-4 .level--current::after {
-	-webkit-transition-delay: 0.45s;
-	transition-delay: 0.45s;
+	-moz-transition-delay: 0.30s;
+	-webkit-transition-delay: 0.60s;
+	transition-delay: 0.60s;
 }
-
+*/
 /* Current level */
 
 .level.level--current {
@@ -450,48 +455,18 @@ button:focus {
 
 /* Level map */
 
-.map {
-	width: 100;
-	height: 100;
-}
 
-.map__ground {
-	fill: #d7d7dc;
-}
-
-.map__outline {
-	-webkit-transition: fill 0.3s;
-	transition: fill 0.3s;
-	fill: #bbb;
-}
 
 .level:hover .map__outline,
 .level--current .map__outline {
 	fill: #a6a3a8;
 }
 
-.map__tree {
-	fill: #7bad7f;
-}
-
-.map__lake {
-	fill: #a2bbdd;
-}
-
-.map__space {
-	-webkit-transition: fill-opacity 0.8s;
-	transition: fill-opacity 0.8s;
-	fill: #bdbdbd;
-	fill-opacity: 0.6;
-}
-
 .level--current .map__space {
 	fill-opacity: 1;
 }
 
- .map__space--selected {
- 	fill: #A4A4A4;
- }
+
 
 /* Content */
 .content {
