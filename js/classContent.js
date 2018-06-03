@@ -4,20 +4,21 @@ class Content {
      * 
      * @param {string} id 
      * @param {string} name 
-     * @param {string} desc 
+     * @param {string} description 
      * @param {string} floor
      * @param {number} x 
      * @param {number} y 
      */
-    constructor(id, name, desc, floor = "-999", x = 0, y = 0 ) {
+    constructor(id, name, description, floor, x, y ) {
         this.id = id;
         this.name = name;
-        this.desk = desk;
-        this.floor = floor;
+        this.description = description;
+        this.floor = floor.toString();
         this.x = x;
         this.y = y;
 
         this.category = (this.floor === "-999") ? 2 : 1;
+        this.svgPin;
 
         let itemMenu = document.getElementsByClassName('content')[0];
     
@@ -43,18 +44,57 @@ class Content {
     
         itemMenu.insertBefore(divContent, itemMenu.children[0]);
         
+        this.pinUpload();
+        (this.category === 1) ? this.createPin(this.floor, this.x, this.y) : NaN;
     }
 
-    createPin() {
-        let divPin = document.createElement('span');
+    createPin(floor, x, y) {
+        this.floor = floor;
+        this.x = x;
+        this.y = y;
+        this.category = 1;
+
+        let aPin = document.createElement('a');
+            aPin.setAttribute('class', 'pin pin--' + this.floor + '-' + this.id);
+            aPin.setAttribute('data-category', this.category);
+            aPin.setAttribute('data-space', this.id);
+            aPin.setAttribute('href', '#');
+            aPin.setAttribute('aria-label', 'Pin for ' + this.name);                                
+        
+        let divPin = document.createElement('div');
             divPin.setAttribute('class', 'pin__icon');
-            
-        svgPin.appendTo(divPin);
+        
+        // NOT FLEXIBLE !!!
+        aPin.style['left'] = x + 'px';
+        aPin.style['top'] = y + 'px';
+
+        this.svgPin.appendTo(divPin);
         aPin.appendChild(divPin);
 
-        let divLevelPins = document.body.getElementsByClassName('level__pins')[list[index]['floor_id']-1];
+        let divLevelPins = document.body.getElementsByClassName('level__pins')[this.floor-1];
         
         divLevelPins.appendChild(aPin);
-        createPin(list[index]['Xasis'], list[index]['Yasis'], list[index]['equip_id'], list[index]['floor_id']);
+    }
+
+    dropPin() {
+        this.floor = "-999";
+        this.x = 0;
+        this.y = 0;
+        this.category = 2;
+
+		let pin = document.querySelector('.pin--active');
+		let level = document.querySelector('.level__pins--active');
+		let content = document.querySelector('.content__item--current');
+			content.setAttribute("data-category", this.category);
+
+		level.removeChild(pin);
+    }
+    
+    pinUpload() {
+        let Pin = Snap();
+        Snap.load("img/pin.svg", (f) => {
+            Pin.append(f.select("symbol"));
+        });
+        this.svgPin = Pin;     
     }
 }
