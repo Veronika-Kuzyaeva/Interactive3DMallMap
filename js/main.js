@@ -65,8 +65,6 @@
 		// levels navigation up/down ctrls
 		levelUpCtrl = mallNav.querySelector('.mallnav__button--up'),
 		levelDownCtrl = mallNav.querySelector('.mallnav__button--down'),
-		// pins
-		pins = [].slice.call(mallLevelsEl.querySelectorAll('.pin')),
 		// content element
 		contentEl = document.querySelector('.content'),
 		// content close ctrl
@@ -79,20 +77,20 @@
 		isNavigating,
 		// check if all levels are shown or if one level is shown (expanded)
 		isExpanded,
-		
 		// listjs initiliazation (all mall´s spaces)
-		spacesList = initList(list),
+		[spacesList, contents] = initList(list),
 		// spaces list element
 		spacesListEl = document.getElementById('spaces-list'),
 		// spaces list ul
 		spacesEl = spacesListEl.querySelector('ul.list'),
 		// all the spaces listed
 		spaces = [].slice.call(spacesEl.querySelectorAll('.list__item > a.list__link')),
+		// pins
+		pins = [].slice.call(mallLevelsEl.querySelectorAll('.pin')),
 		// reference to the current shows space (name set in the data-name attr of both the listed spaces and the pins on the map)
 		spaceref,
 		// sort by ctrls
 		sortByNameCtrl = document.querySelector('#sort-by-name'),
-
 		// smaller screens:
 		// open search ctrl
 		openSearchCtrl = document.querySelector('button.open-search'),
@@ -120,21 +118,26 @@
 				  '</li>'
 		};
 		
-		var values = [];
+		let values = [];
+		let contents = {};
 
-		for (let index in list) {
+		for (let equip of list) {
+			let content = new Content(equip['equip_id'], equip['equip_name'], equip['description'],
+									equip['floor_id'], equip['Xasis'], equip['Yasis']);
 			values.push({
-				list__link: list[index]['equip_name'],
-				level: list[index]['floor_id'],
-				category: (list[index]['floor_id'].toString() === "-999") ? 2 : 1,
-				space: list[index]['equip_id']
+				list__link: content.name,
+				level: content.floor,
+				category: content.category,
+				space: content.id
 			});
+
+			contents[content.id] = content;
 		}		  
 		
-		var newList = new List('spaces-list', options, values);
+		let newList = new List('spaces-list', options, values);
 		newList.sort('category', { order: "asc" });
 
-		return newList;
+		return [newList, contents] ;
 		
 	}
 
@@ -178,27 +181,7 @@
 		});
 
 		// hovering a pin / clicking a pin
-		pins.forEach(function(pin) {
-			var contentItem = contentEl.querySelector('.content__item[data-space="' + pin.getAttribute('data-space') + '"]');
-
-			pin.addEventListener('mouseenter', function() {
-				if( !isOpenContentArea ) {
-					classie.add(contentItem, 'content__item--hover');
-				}
-			});
-			pin.addEventListener('mouseleave', function() {
-				if( !isOpenContentArea ) {
-					classie.remove(contentItem, 'content__item--hover');
-				}
-			});
-			pin.addEventListener('click', function(ev) {
-				ev.preventDefault();
-				// open content for this pin
-				openContent(pin.getAttribute('data-space'));
-				// remove hover class (showing the title)
-				classie.remove(contentItem, 'content__item--hover');
-			});
-		});
+		pins.forEach(pinHandle);
 
 		// closing the content area
 		contentCloseCtrl.addEventListener('click', function() {
@@ -206,17 +189,60 @@
 		});
 
 		pinMoveCtrl.addEventListener('click', function() {
-			dropPin();
-			spacesList.update();
+			let content = document.querySelector('.content__item--current').getAttribute("data-space");
+			
+			if (contents[content].category === 1) {
+
+				contents[content].dropPin();
+				let changebleSpace = spacesList.get("space", contents[content].id)[0];
+		
+				changebleSpace.values({
+					category: 2,
+					level: "-999"
+				});
+
+				spacesList.sort('category', { order: "asc" });
+			}
+			else {
+				let svgLevel = document.querySelector('.level--current > svg');
+				let divLevel = document.querySelector('.level--current > .level__pins');
+				divLevel.style.pointerEvents = "none";
+
+				let s = Snap(svgLevel);
+				
+				var clickCallback = function(event) {
+					console.log(event);
+					contents[content].createPin(selectedLevel, event.layerX, event.layerY);
+
+					let changebleSpace = spacesList.get("space", contents[content].id)[0];
+					changebleSpace.values({
+						category: 1,
+						level: selectedLevel
+					});
+					s.unclick();
+					divLevel.style.pointerEvents = "auto";
+
+					pinHandle(document.querySelector(`.pin--${contents[content].floor}-${contents[content].id}`));
+					contents[content].category = 1;
+					
+					let newPin = mallLevelsEl.querySelector('.pin[data-space="' + spaceref + '"]');
+					classie.add(newPin, 'pin--active');
+					newPin.onclick;
+					spacesList.sort('category', { order: "asc" });
+				};
+				
+				s.click(clickCallback);
+				
+			}
+			
 		});
 
 		// clicking on a listed space: open level - shows space
 		spaces.forEach(function(space) {
-			var spaceItem = space.parentNode,
-				level = spaceItem.getAttribute('data-level'),
-				spacerefval = spaceItem.getAttribute('data-space');
-
 			space.addEventListener('click', function(ev) {
+				let spaceItem = space.parentNode,
+					level = spaceItem.getAttribute('data-level'),
+					spacerefval = spaceItem.getAttribute('data-space');
 				ev.preventDefault();
 				// for smaller screens: close search bar
 				closeSearch();
@@ -235,6 +261,33 @@
 		// smaller screens: close the search bar
 		closeSearchCtrl.addEventListener('click', function() {
 			closeSearch();
+		});
+	}
+
+	/**
+	 * Mouse event init
+	 * 
+	 * @param {node} pin 
+	 */
+	function pinHandle(pin) {
+		var contentItem = contentEl.querySelector('.content__item[data-space="' + pin.getAttribute('data-space') + '"]');
+
+		pin.addEventListener('mouseenter', function() {
+			if( !isOpenContentArea ) {
+				classie.add(contentItem, 'content__item--hover');
+			}
+		});
+		pin.addEventListener('mouseleave', function() {
+			if( !isOpenContentArea ) {
+				classie.remove(contentItem, 'content__item--hover');
+			}
+		});
+		pin.addEventListener('click', function(ev) {
+			ev.preventDefault();
+			// open content for this pin
+			openContent(pin.getAttribute('data-space'));
+			// remove hover class (showing the title)
+			classie.remove(contentItem, 'content__item--hover');
 		});
 	}
 

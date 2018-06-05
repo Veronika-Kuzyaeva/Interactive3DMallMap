@@ -37,7 +37,7 @@ var list = [
     'floor_id' : 1,
     'equip_name' : 'Staff #1',
     'description' : 'Some desc 1',
-    'Xasis' : 20,
+    'Xasis' : 250,
     'Yasis' : 30
   },
   {
@@ -78,5 +78,14 @@ var list = [
     'Xasis' : -999,
     'Yasis' : -999
   }
-
 ]
+
+var floors = [];
+
+for(var i = 1; i <= 4; i++) {
+  floors.push({
+    id: `${i}`,
+    link: "img/buildings/first_building/level_2.svg",
+    level: i
+  });
+}
