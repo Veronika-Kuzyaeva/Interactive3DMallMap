@@ -43,16 +43,21 @@ class Content {
         divContent.appendChild(divDetails);
     
         itemMenu.insertBefore(divContent, itemMenu.children[0]);
-        
-        this.pinUpload();
-        (this.category === 1) ? this.createPin(this.floor, this.x, this.y) : NaN;
+        if (this.category === 1){
+            this.createPin(this.floor, this.x, this.y);
+        }
     }
 
     createPin(floor, x, y) {
+
         this.floor = floor;
         this.x = x;
         this.y = y;
         this.category = 1;
+
+        if(this.svgPin == undefined) {
+            this.pinUpload();
+        }
 
         let aPin = document.createElement('a');
             aPin.setAttribute('class', 'pin pin--' + this.floor + '-' + this.id);
@@ -72,7 +77,11 @@ class Content {
         aPin.appendChild(divPin);
 
         let divLevelPins = document.body.getElementsByClassName('level__pins')[this.floor-1];
-        
+        let content = document.querySelector('.content__item--current');
+        if(content) {
+            content.setAttribute("data-category", this.category);
+        }
+            
         divLevelPins.appendChild(aPin);
     }
 
@@ -89,8 +98,9 @@ class Content {
 
 		level.removeChild(pin);
     }
-    
+
     pinUpload() {
+        console.log("I'm here");
         let Pin = Snap();
         Snap.load("img/pin.svg", (f) => {
             Pin.append(f.select("symbol"));

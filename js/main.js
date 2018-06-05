@@ -121,9 +121,9 @@
 		let values = [];
 		let contents = {};
 
-		for (let index in list) {
-			let content = new Content(list[index]['equip_id'], list[index]['equip_name'], list[index]['description'],
-									list[index]['floor_id'], list[index]['Xasis'], list[index]['Yasis']);
+		for (let equip of list) {
+			let content = new Content(equip['equip_id'], equip['equip_name'], equip['description'],
+									equip['floor_id'], equip['Xasis'], equip['Yasis']);
 			values.push({
 				list__link: content.name,
 				level: content.floor,
@@ -181,27 +181,7 @@
 		});
 
 		// hovering a pin / clicking a pin
-		pins.forEach(function(pin) {
-			var contentItem = contentEl.querySelector('.content__item[data-space="' + pin.getAttribute('data-space') + '"]');
-
-			pin.addEventListener('mouseenter', function() {
-				if( !isOpenContentArea ) {
-					classie.add(contentItem, 'content__item--hover');
-				}
-			});
-			pin.addEventListener('mouseleave', function() {
-				if( !isOpenContentArea ) {
-					classie.remove(contentItem, 'content__item--hover');
-				}
-			});
-			pin.addEventListener('click', function(ev) {
-				ev.preventDefault();
-				// open content for this pin
-				openContent(pin.getAttribute('data-space'));
-				// remove hover class (showing the title)
-				classie.remove(contentItem, 'content__item--hover');
-			});
-		});
+		pins.forEach(pinHandle);
 
 		// closing the content area
 		contentCloseCtrl.addEventListener('click', function() {
@@ -210,10 +190,11 @@
 
 		pinMoveCtrl.addEventListener('click', function() {
 			let content = document.querySelector('.content__item--current').getAttribute("data-space");
+			
 			if (contents[content].category === 1) {
 
 				contents[content].dropPin();
-				let changebleSpace = spacesList.get("space",contents[content].id)[0];
+				let changebleSpace = spacesList.get("space", contents[content].id)[0];
 		
 				changebleSpace.values({
 					category: 2,
@@ -228,11 +209,26 @@
 				divLevel.style.pointerEvents = "none";
 
 				let s = Snap(svgLevel);
-				console.log(s);
 				
 				var clickCallback = function(event) {
 					console.log(event);
 					contents[content].createPin(selectedLevel, event.layerX, event.layerY);
+
+					let changebleSpace = spacesList.get("space", contents[content].id)[0];
+					changebleSpace.values({
+						category: 1,
+						level: selectedLevel
+					});
+					s.unclick();
+					divLevel.style.pointerEvents = "auto";
+
+					pinHandle(document.querySelector(`.pin--${contents[content].floor}-${contents[content].id}`));
+					contents[content].category = 1;
+					
+					let newPin = mallLevelsEl.querySelector('.pin[data-space="' + spaceref + '"]');
+					classie.add(newPin, 'pin--active');
+					newPin.onclick;
+					spacesList.sort('category', { order: "asc" });
 				};
 				
 				s.click(clickCallback);
@@ -265,6 +261,33 @@
 		// smaller screens: close the search bar
 		closeSearchCtrl.addEventListener('click', function() {
 			closeSearch();
+		});
+	}
+
+	/**
+	 * Mouse event init
+	 * 
+	 * @param {node} pin 
+	 */
+	function pinHandle(pin) {
+		var contentItem = contentEl.querySelector('.content__item[data-space="' + pin.getAttribute('data-space') + '"]');
+
+		pin.addEventListener('mouseenter', function() {
+			if( !isOpenContentArea ) {
+				classie.add(contentItem, 'content__item--hover');
+			}
+		});
+		pin.addEventListener('mouseleave', function() {
+			if( !isOpenContentArea ) {
+				classie.remove(contentItem, 'content__item--hover');
+			}
+		});
+		pin.addEventListener('click', function(ev) {
+			ev.preventDefault();
+			// open content for this pin
+			openContent(pin.getAttribute('data-space'));
+			// remove hover class (showing the title)
+			classie.remove(contentItem, 'content__item--hover');
 		});
 	}
 
