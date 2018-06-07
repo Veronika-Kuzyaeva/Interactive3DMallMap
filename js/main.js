@@ -211,7 +211,6 @@
 				let s = Snap(svgLevel);
 				
 				var clickCallback = function(event) {
-					console.log(event);
 					contents[content].createPin(selectedLevel, event.layerX, event.layerY);
 
 					let changebleSpace = spacesList.get("space", contents[content].id)[0];
