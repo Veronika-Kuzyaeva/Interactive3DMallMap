@@ -16,6 +16,7 @@ class Content {
         this.floor = floor.toString();
         this.x = x;
         this.y = y;
+        this.upload = false;
 
         this.category = (this.floor === "-999") ? 2 : 1;
         this.svgPin;
@@ -36,7 +37,7 @@ class Content {
     
         let pDesc = document.createElement('p');
             pDesc.setAttribute('class', "content__desc");
-            pDesc.innerText = this.desk;
+            pDesc.innerText = this.description;
     
         divDetails.appendChild(pDesc);
         divContent.appendChild(head);
@@ -55,33 +56,32 @@ class Content {
         this.y = y;
         this.category = 1;
 
-        if(this.svgPin == undefined) {
-            this.pinUpload();
-        }
+        let divPin = document.createElement('div');
+            divPin.setAttribute('class', 'pin__icon');   
 
         let aPin = document.createElement('a');
             aPin.setAttribute('class', 'pin pin--' + this.floor + '-' + this.id);
             aPin.setAttribute('data-category', this.category);
             aPin.setAttribute('data-space', this.id);
             aPin.setAttribute('href', '#');
-            aPin.setAttribute('aria-label', 'Pin for ' + this.name);                                
-        
-        let divPin = document.createElement('div');
-            divPin.setAttribute('class', 'pin__icon');
-        
-        // NOT FLEXIBLE !!!
-        aPin.style['left'] = x + 'px';
-        aPin.style['top'] = y + 'px';
+            aPin.setAttribute('aria-label', 'Pin for ' + this.name);       
 
-        this.svgPin.appendTo(divPin);
-        aPin.appendChild(divPin);
+        // NOT FLEXIBLE !!!
+        aPin.style['left'] = this.x + 'px';
+        aPin.style['top'] = this.y + 'px';
 
         let divLevelPins = document.body.getElementsByClassName('level__pins')[this.floor-1];
         let content = document.querySelector('.content__item--current');
+
         if(content) {
             content.setAttribute("data-category", this.category);
         }
-            
+        
+        if(!this.upload) {
+            this.pinUpload(divPin);
+        }
+
+        aPin.appendChild(divPin);
         divLevelPins.appendChild(aPin);
     }
 
@@ -99,12 +99,12 @@ class Content {
 		level.removeChild(pin);
     }
 
-    pinUpload() {
-        console.log("I'm here");
+    pinUpload(divPin) {
+
         let Pin = Snap();
         Snap.load("img/pin.svg", (f) => {
             Pin.append(f.select("symbol"));
+            Pin.appendTo(divPin);
         });
-        this.svgPin = Pin;     
     }
 }

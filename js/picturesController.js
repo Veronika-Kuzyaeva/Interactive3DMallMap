@@ -1,6 +1,6 @@
 let divLevels = document.querySelector(".levels");
 let styleRule = document.styleSheets[1];
-
+        
 floors.sort((a, b) => {
     return a.level - b.level;
 });
@@ -48,6 +48,5 @@ for(let i = 0; i < floors.length; i++) {
 
     styleRule.insertRule(`.levels--selected-${floors[i].level} .level:not(.level--${floors[i].level})
             { opacity: 0; }`, 0);
-    
 }
     
