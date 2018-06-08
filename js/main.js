@@ -211,14 +211,14 @@
 				let s = Snap(svgLevel);
 				
 				var clickCallback = function(event) {
-					contents[content].createPin(selectedLevel, event.layerX, event.layerY);
+					contents[content].setFloor(selectedLevel, event.layerX, event.layerY);
 
 					let changebleSpace = spacesList.get("space", contents[content].id)[0];
 					changebleSpace.values({
 						category: 1,
 						level: selectedLevel
 					});
-					s.unclick();
+					
 					divLevel.style.pointerEvents = "auto";
 
 					pinHandle(document.querySelector(`.pin--${contents[content].floor}-${contents[content].id}`));
@@ -226,8 +226,9 @@
 					
 					let newPin = mallLevelsEl.querySelector('.pin[data-space="' + spaceref + '"]');
 					classie.add(newPin, 'pin--active');
-					newPin.onclick;
 					spacesList.sort('category', { order: "asc" });
+
+					s.unclick();
 				};
 				
 				s.click(clickCallback);
