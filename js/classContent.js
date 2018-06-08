@@ -25,6 +25,9 @@ class Content {
         this.aPin.setAttribute('data-space', this.id);
         this.aPin.setAttribute('aria-label', 'Pin for ' + this.name);
 
+        this.divPin = document.createElement('div');
+        this.divPin.setAttribute('class', 'pin__icon'); 
+
         let itemMenu = document.getElementsByClassName('content')[0];
     
         let divContent = document.createElement('div');
@@ -42,30 +45,28 @@ class Content {
         let pDesc = document.createElement('p');
             pDesc.setAttribute('class', "content__desc");
             pDesc.innerText = this.description;
-    
+        
         divDetails.appendChild(pDesc);
         divContent.appendChild(head);
         divContent.appendChild(divDetails);
     
         itemMenu.insertBefore(divContent, itemMenu.children[0]);
+
         if (this.category === 1){
-            let divPin = document.createElement('div');
-                divPin.setAttribute('class', 'pin__icon');   
-
+            this.pinUpload();
             this.setFloor();
-
-            if(!this.upload) {
-                this.pinUpload(divPin);
-            }
-            this.aPin.appendChild(divPin);
-            
         }
+
+        this.aPin.appendChild(this.divPin);
     }
 
     setFloor(floor = this.floor, x = this.x, y = this.y) {
         this.floor = floor;
         this.category = 1;
         
+        if(!this.upload) {
+            this.pinUpload();
+        }
 
         this.aPin.setAttribute('class', 'pin pin--' + this.floor + '-' + this.id);
         this.aPin.setAttribute('data-category', this.category);
@@ -83,13 +84,14 @@ class Content {
     }
 
     setPinPosition(x, y) {
+        let rightClientSizeAttribute = (document.documentElement.clientWidth > document.documentElement.clientHeight) ? 
+            document.documentElement.clientHeight : document.documentElement.clientWidth;
         // Some secret magic
-        this.x = x - 2;
-        this.y = y + 2;
-
-        // NOT FLEXIBLE !!!
-        this.aPin.style['left'] = this.x + 'px';
-        this.aPin.style['top'] = this.y + 'px';
+        this.x = x * (100 / rightClientSizeAttribute) - 1;
+        this.y = y * (100 / rightClientSizeAttribute) + 1;
+        // HOT FLEXIBLE !!!
+        this.aPin.style['left'] = this.x + 'vmin';
+        this.aPin.style['top'] = this.y + 'vmin';
     }
 
     dropPin() {
@@ -106,12 +108,12 @@ class Content {
 		level.removeChild(pin);
     }
 
-    pinUpload(divPin) {
+    pinUpload() {
         let Pin = Snap();        
         Snap.load("img/pin.svg", (f) => {
             Pin.append(f.select("symbol"));
-            Pin.appendTo(divPin);
         });
-        
+        Pin.appendTo(this.divPin);
+        this.upload = true;
     }
 }
