@@ -19,7 +19,11 @@ class Content {
         this.upload = false;
 
         this.category = (this.floor === "-999") ? 2 : 1;
-        this.svgPin;
+
+        this.aPin = document.createElement('a');
+        this.aPin.setAttribute('href', '#');
+        this.aPin.setAttribute('data-space', this.id);
+        this.aPin.setAttribute('aria-label', 'Pin for ' + this.name);
 
         let itemMenu = document.getElementsByClassName('content')[0];
     
@@ -45,30 +49,28 @@ class Content {
     
         itemMenu.insertBefore(divContent, itemMenu.children[0]);
         if (this.category === 1){
-            this.createPin(this.floor, this.x, this.y);
+            let divPin = document.createElement('div');
+                divPin.setAttribute('class', 'pin__icon');   
+
+            this.setFloor();
+
+            if(!this.upload) {
+                this.pinUpload(divPin);
+            }
+            this.aPin.appendChild(divPin);
+            
         }
     }
 
-    createPin(floor, x, y) {
-
+    setFloor(floor = this.floor, x = this.x, y = this.y) {
         this.floor = floor;
-        this.x = x;
-        this.y = y;
         this.category = 1;
+        
 
-        let divPin = document.createElement('div');
-            divPin.setAttribute('class', 'pin__icon');   
+        this.aPin.setAttribute('class', 'pin pin--' + this.floor + '-' + this.id);
+        this.aPin.setAttribute('data-category', this.category);
 
-        let aPin = document.createElement('a');
-            aPin.setAttribute('class', 'pin pin--' + this.floor + '-' + this.id);
-            aPin.setAttribute('data-category', this.category);
-            aPin.setAttribute('data-space', this.id);
-            aPin.setAttribute('href', '#');
-            aPin.setAttribute('aria-label', 'Pin for ' + this.name);       
-
-        // NOT FLEXIBLE !!!
-        aPin.style['left'] = this.x + 'px';
-        aPin.style['top'] = this.y + 'px';
+        this.setPinPosition(x, y);
 
         let divLevelPins = document.body.getElementsByClassName('level__pins')[this.floor-1];
         let content = document.querySelector('.content__item--current');
@@ -77,12 +79,17 @@ class Content {
             content.setAttribute("data-category", this.category);
         }
         
-        if(!this.upload) {
-            this.pinUpload(divPin);
-        }
+        divLevelPins.appendChild(this.aPin);
+    }
 
-        aPin.appendChild(divPin);
-        divLevelPins.appendChild(aPin);
+    setPinPosition(x, y) {
+        // Some secret magic
+        this.x = x - 2;
+        this.y = y + 2;
+
+        // NOT FLEXIBLE !!!
+        this.aPin.style['left'] = this.x + 'px';
+        this.aPin.style['top'] = this.y + 'px';
     }
 
     dropPin() {
@@ -100,11 +107,11 @@ class Content {
     }
 
     pinUpload(divPin) {
-
-        let Pin = Snap();
+        let Pin = Snap();        
         Snap.load("img/pin.svg", (f) => {
             Pin.append(f.select("symbol"));
             Pin.appendTo(divPin);
         });
+        
     }
 }
