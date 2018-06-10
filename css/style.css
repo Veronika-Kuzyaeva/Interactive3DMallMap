@@ -268,6 +268,13 @@ button:focus {
 	transform: rotateZ(-20deg) rotateZ(45deg) rotateX(-70deg) translateZ(5vmin) translateX(5vmin) translateY(-10vmin);
 }
 
+.level__pins--mode  {
+	background-color: rgba(10, 255, 194, 0.07);
+	-webkit-box-shadow: 10px 40px 100px 10px rgba(10, 255, 194, 0.09);
+	-moz-box-shadow: 10px 40px 100px 10px rgba(10, 255, 194, 0.09);
+	box-shadow: 10px 40px 100px 10px rgba(10, 255, 194, 0.09);
+}
+
 /*
 .level--1::after {
 	content: 'L1';
@@ -428,8 +435,8 @@ button:focus {
 	height: 2em;
 	margin: 0;
 	padding: 0;
-	color: #fff;
 	border: 0;
+	color: #fff;
 	background: #d7d7dc;
 }
 
