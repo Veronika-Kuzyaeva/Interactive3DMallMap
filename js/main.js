@@ -99,7 +99,9 @@
 		// main container
 		containerEl = document.querySelector('.container'),
 		// close search ctrl
-		closeSearchCtrl = spacesListEl.querySelector('button.close-search');
+		closeSearchCtrl = spacesListEl.querySelector('button.close-search'),
+		// switch button state
+		switchButton = true;
 	
 	/**
 	 * Add all object in the List
@@ -210,11 +212,10 @@
 			else {
 				let svgLevel = document.querySelector('.level--current > svg');
 				let divLevel = document.querySelector('.level--current > .level__pins');
-				divLevel.style.pointerEvents = "none";
-
+				let list = document.querySelector(".list");
 				let s = Snap(svgLevel);
-				
-				var clickCallback = function(event) {
+
+				const clickCallback = (event) => {
 					contents[content].setFloor(selectedLevel, event.layerX, event.layerY);
 					switchPlusMinus();
 					setMovingPinButtonState();
@@ -225,6 +226,7 @@
 					});
 					
 					divLevel.style.pointerEvents = "auto";
+					list.style.pointerEvents = "auto";
 
 					pinHandle(document.querySelector(`.pin--${contents[content].floor}-${contents[content].id}`));
 					contents[content].category = 1;
@@ -234,37 +236,75 @@
 					spacesList.sort('category', { order: "asc" });
 					
 					s.unclick();
+					pinAddRemoveCtrl.style.color = "";
+					classie.remove(divLevel, "level__pins--mode");
+					switchButton = true;
+					classie.remove(contentCloseCtrl, "boxbutton--disabled");
 				};
-				
-				s.click(clickCallback);	
+
+				if(switchButton) {
+					switchButton = false;
+					classie.add(divLevel, "level__pins--mode");
+					classie.add(contentCloseCtrl, 'boxbutton--disabled');
+					divLevel.style.pointerEvents = "none";
+					pinAddRemoveCtrl.style.color = "#515158";
+					list.style.pointerEvents = "none";
+					s.click(clickCallback);	
+				}
+				else {
+					switchButton = true;
+					divLevel.style.pointerEvents = "auto";
+					list.style.pointerEvents = "auto";
+					s.unclick();
+					pinAddRemoveCtrl.style.color = "";
+					classie.remove(divLevel, "level__pins--mode");
+					classie.remove(contentCloseCtrl, 'boxbutton--disabled');
+				}	
 			}
 		});
 
 		pinMovingCtrl.addEventListener('click', () => {
-			let content = document.querySelector('.content__item--current').getAttribute("data-space");
 			
-			if (contents[content].category === 1) {
-				let svgLevel = document.querySelector('.level--current > svg');
-				let divLevel = document.querySelector('.level--current > .level__pins');
+			let content = document.querySelector('.content__item--current').getAttribute("data-space");
+			let divLevel = document.querySelector('.level--current > .level__pins');
+			let svgLevel = document.querySelector('.level--current > svg');
+			let list = document.querySelector(".list");
+			let s = Snap(svgLevel);
+
+			const clickCallback = (event) => {
+				contents[content].setFloor(selectedLevel, event.layerX, event.layerY);
+				divLevel.style.pointerEvents = "auto";
+				list.style.pointerEvents = "auto";
+				let newPin = mallLevelsEl.querySelector('.pin[data-space="' + spaceref + '"]');
+				classie.add(newPin, 'pin--active');					
+				s.unclick();
+				pinMovingCtrl.style.color = "";
+				classie.remove(divLevel, "level__pins--mode");
+				classie.remove(contentCloseCtrl, 'boxbutton--disabled');
+				classie.remove(pinAddRemoveCtrl, 'boxbutton--disabled');
+				switchButton = true;
+			};
+
+			if(switchButton) {
+				switchButton = false;
+				classie.add(contentCloseCtrl, 'boxbutton--disabled');
+				classie.add(pinAddRemoveCtrl, 'boxbutton--disabled');
+				pinMovingCtrl.style.color = "#515158";
+				classie.add(divLevel, "level__pins--mode");			
 				divLevel.style.pointerEvents = "none";
-
-				let s = Snap(svgLevel);
-				
-				var clickCallback = function(event) {
-					contents[content].setFloor(selectedLevel, event.layerX, event.layerY);
-					
-					divLevel.style.pointerEvents = "auto";
-
-					let newPin = mallLevelsEl.querySelector('.pin[data-space="' + spaceref + '"]');
-					classie.add(newPin, 'pin--active');					
-					s.unclick();
-				};
-				
-				s.click(clickCallback);	
+				list.style.pointerEvents = "none";
+				s.click(clickCallback);
 			}
 			else {
-				
-			}
+				switchButton = true;
+				classie.remove(contentCloseCtrl, 'boxbutton--disabled');
+				classie.remove(pinAddRemoveCtrl, 'boxbutton--disabled');
+				divLevel.style.pointerEvents = "auto";
+				list.style.pointerEvents = "auto";
+				s.unclick();
+				pinMovingCtrl.style.color = "";
+				classie.remove(divLevel, "level__pins--mode");
+			}			
 		});
 
 		// clicking on a listed space: open level - shows space
@@ -354,13 +394,6 @@
 			isExpanded = true;
 		}, 'transform');
 		
-		/*
-		try {
-			reGroupPin(selectedLevel);
-		}
-		catch(e) {
-		}
-		*/
 		// hide surroundings element
 		hideSurroundings();
 		
@@ -623,6 +656,7 @@
 		// disable mall nav ctrls
 		classie.add(levelDownCtrl, 'boxbutton--disabled');
 		classie.add(levelUpCtrl, 'boxbutton--disabled');
+		classie.add(allLevelsCtrl, 'boxbutton--disabled');
 	}
 
 	/**
@@ -656,6 +690,7 @@
 		classie.add(contentCloseCtrl, 'content__button--hidden');
 		classie.add(pinAddRemoveCtrl, 'pin__button--hidden');
 		classie.add(pinMovingCtrl, 'pin__moving--hidden');
+		classie.remove(allLevelsCtrl, 'boxbutton--disabled');
 		// resize mall area
 		classie.remove(mall, 'mall--content-open');
 		// enable mall nav ctrls
