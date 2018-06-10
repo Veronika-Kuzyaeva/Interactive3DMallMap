@@ -448,7 +448,7 @@ button:focus {
 .boxbutton--disabled,
 .boxbutton--disabled:focus,
 .boxbutton--disabled:hover {
-	cursor: default;
+	/*cursor: default;*/
 	pointer-events: none;
 	opacity: 0.2;
 }
@@ -629,7 +629,15 @@ button:focus {
 	transition: opacity 0.3s 0.7s;
 }
 
-.content__button--hidden, .pin__button--hidden {
+.pin__moving {
+	position: absolute;
+	top: -100%;
+	right: 132px;
+	-webkit-transition: opacity 0.3s 0.7s;
+	transition: opacity 0.3s 0.7s;
+}
+
+.content__button--hidden, .pin__button--hidden, .pin__moving--hidden {
 	pointer-events: none;
 	opacity: 0;
 	-webkit-transition: none;

@@ -86,12 +86,13 @@ class Content {
     setPinPosition(x, y) {
         let rightClientSizeAttribute = (document.documentElement.clientWidth > document.documentElement.clientHeight) ? 
             document.documentElement.clientHeight : document.documentElement.clientWidth;
-        // Some secret magic
-        this.x = x * (100 / rightClientSizeAttribute) - 1;
-        this.y = y * (100 / rightClientSizeAttribute) + 1;
+        this.x = x;
+        this.y = y;
         // HOT FLEXIBLE !!!
-        this.aPin.style['left'] = this.x + 'vmin';
-        this.aPin.style['top'] = this.y + 'vmin';
+        console.log('left ' + this.x + ", top " + this.y);
+        // Some secret magic +-1
+        this.aPin.style['left'] = (this.x * (100 / rightClientSizeAttribute) - 1) + 'vmin';
+        this.aPin.style['top'] = (this.y * (100 / rightClientSizeAttribute) + 1) + 'vmin';
     }
 
     dropPin() {
