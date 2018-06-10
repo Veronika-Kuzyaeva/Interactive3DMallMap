@@ -70,7 +70,9 @@
 		// content close ctrl
 		contentCloseCtrl = contentEl.querySelector('button.content__button'),
 		// removing/adding pin
-		pinMoveCtrl = contentEl.querySelector('button.pin__button'),
+		pinAddRemoveCtrl = contentEl.querySelector('button.pin__button'),
+		// Moving pin around the floor
+		pinMovingCtrl = contentEl.querySelector('button.pin__moving'),
 		// check if a content item is opened
 		isOpenContentArea,
 		// check if currently animating/navigating
@@ -97,7 +99,9 @@
 		// main container
 		containerEl = document.querySelector('.container'),
 		// close search ctrl
-		closeSearchCtrl = spacesListEl.querySelector('button.close-search');
+		closeSearchCtrl = spacesListEl.querySelector('button.close-search'),
+		// switch button state
+		switchButton = true;
 	
 	/**
 	 * Add all object in the List
@@ -188,12 +192,14 @@
 			closeContentArea();
 		});
 
-		pinMoveCtrl.addEventListener('click', function() {
+		pinAddRemoveCtrl.addEventListener('click', function() {
 			let content = document.querySelector('.content__item--current').getAttribute("data-space");
 			
 			if (contents[content].category === 1) {
 
 				contents[content].dropPin();
+				switchPlusMinus();
+				setMovingPinButtonState();
 				let changebleSpace = spacesList.get("space", contents[content].id)[0];
 		
 				changebleSpace.values({
@@ -206,35 +212,99 @@
 			else {
 				let svgLevel = document.querySelector('.level--current > svg');
 				let divLevel = document.querySelector('.level--current > .level__pins');
-				divLevel.style.pointerEvents = "none";
-
+				let list = document.querySelector(".list");
 				let s = Snap(svgLevel);
-				
-				var clickCallback = function(event) {
-					console.log(event);
-					contents[content].createPin(selectedLevel, event.layerX, event.layerY);
 
+				const clickCallback = (event) => {
+					contents[content].setFloor(selectedLevel, event.layerX, event.layerY);
+					switchPlusMinus();
+					setMovingPinButtonState();
 					let changebleSpace = spacesList.get("space", contents[content].id)[0];
 					changebleSpace.values({
 						category: 1,
 						level: selectedLevel
 					});
-					s.unclick();
+					
 					divLevel.style.pointerEvents = "auto";
+					list.style.pointerEvents = "auto";
 
 					pinHandle(document.querySelector(`.pin--${contents[content].floor}-${contents[content].id}`));
 					contents[content].category = 1;
 					
 					let newPin = mallLevelsEl.querySelector('.pin[data-space="' + spaceref + '"]');
 					classie.add(newPin, 'pin--active');
-					newPin.onclick;
 					spacesList.sort('category', { order: "asc" });
+					
+					s.unclick();
+					pinAddRemoveCtrl.style.color = "";
+					classie.remove(divLevel, "level__pins--mode");
+					switchButton = true;
+					classie.remove(contentCloseCtrl, "boxbutton--disabled");
 				};
-				
-				s.click(clickCallback);
-				
+
+				if(switchButton) {
+					switchButton = false;
+					classie.add(divLevel, "level__pins--mode");
+					classie.add(contentCloseCtrl, 'boxbutton--disabled');
+					divLevel.style.pointerEvents = "none";
+					pinAddRemoveCtrl.style.color = "#515158";
+					list.style.pointerEvents = "none";
+					s.click(clickCallback);	
+				}
+				else {
+					switchButton = true;
+					divLevel.style.pointerEvents = "auto";
+					list.style.pointerEvents = "auto";
+					s.unclick();
+					pinAddRemoveCtrl.style.color = "";
+					classie.remove(divLevel, "level__pins--mode");
+					classie.remove(contentCloseCtrl, 'boxbutton--disabled');
+				}	
 			}
+		});
+
+		pinMovingCtrl.addEventListener('click', () => {
 			
+			let content = document.querySelector('.content__item--current').getAttribute("data-space");
+			let divLevel = document.querySelector('.level--current > .level__pins');
+			let svgLevel = document.querySelector('.level--current > svg');
+			let list = document.querySelector(".list");
+			let s = Snap(svgLevel);
+
+			const clickCallback = (event) => {
+				contents[content].setFloor(selectedLevel, event.layerX, event.layerY);
+				divLevel.style.pointerEvents = "auto";
+				list.style.pointerEvents = "auto";
+				let newPin = mallLevelsEl.querySelector('.pin[data-space="' + spaceref + '"]');
+				classie.add(newPin, 'pin--active');					
+				s.unclick();
+				pinMovingCtrl.style.color = "";
+				classie.remove(divLevel, "level__pins--mode");
+				classie.remove(contentCloseCtrl, 'boxbutton--disabled');
+				classie.remove(pinAddRemoveCtrl, 'boxbutton--disabled');
+				switchButton = true;
+			};
+
+			if(switchButton) {
+				switchButton = false;
+				classie.add(contentCloseCtrl, 'boxbutton--disabled');
+				classie.add(pinAddRemoveCtrl, 'boxbutton--disabled');
+				pinMovingCtrl.style.color = "#515158";
+				classie.add(divLevel, "level__pins--mode");			
+				divLevel.style.pointerEvents = "none";
+				list.style.pointerEvents = "none";
+				s.click(clickCallback);
+			}
+			else {
+				switchButton = true;
+				classie.remove(contentCloseCtrl, 'boxbutton--disabled');
+				classie.remove(pinAddRemoveCtrl, 'boxbutton--disabled');
+				divLevel.style.pointerEvents = "auto";
+				list.style.pointerEvents = "auto";
+				s.unclick();
+				pinMovingCtrl.style.color = "";
+				classie.remove(divLevel, "level__pins--mode");
+			}			
 		});
 
 		// clicking on a listed space: open level - shows space
@@ -250,6 +320,8 @@
 				showLevel(level);
 				// open content for this space
 				openContent(spacerefval);
+				switchPlusMinus();
+				setMovingPinButtonState();
 			});
 		});
 
@@ -271,7 +343,7 @@
 	 */
 	function pinHandle(pin) {
 		var contentItem = contentEl.querySelector('.content__item[data-space="' + pin.getAttribute('data-space') + '"]');
-
+		
 		pin.addEventListener('mouseenter', function() {
 			if( !isOpenContentArea ) {
 				classie.add(contentItem, 'content__item--hover');
@@ -288,6 +360,8 @@
 			openContent(pin.getAttribute('data-space'));
 			// remove hover class (showing the title)
 			classie.remove(contentItem, 'content__item--hover');
+			switchPlusMinus();
+			setMovingPinButtonState();
 		});
 	}
 
@@ -320,13 +394,6 @@
 			isExpanded = true;
 		}, 'transform');
 		
-		/*
-		try {
-			reGroupPin(selectedLevel);
-		}
-		catch(e) {
-		}
-		*/
 		// hide surroundings element
 		hideSurroundings();
 		
@@ -391,27 +458,6 @@
 	function removePins(levelEl) {
 		var levelEl = levelEl || mallLevels[selectedLevel - 1];
 		classie.remove(levelEl.querySelector('.level__pins'), 'level__pins--active');
-	}
-
-	/**
-	 * Drop chosen pin
-	 */
-	function dropPin() {
-		let pin = document.querySelector('.pin--active');
-		let level = document.querySelector('.level__pins--active');
-		let content = document.querySelector('.content__item--current');
-			content.setAttribute("data-category", 2);
-
-		let changebleSpace = spacesList.get("space", pin.getAttribute("data-space"))[0];
-		
-		changebleSpace.values({
-			category: 2,
-			level: "-999"
-		});
-		
-		spacesList.sort('category', { order: "asc" });
-
-		level.removeChild(pin);
 	}
 
 	/**
@@ -522,6 +568,20 @@
 	}
 
 	/**
+	 * Control moving around floor button state 
+	 */
+	function setMovingPinButtonState() {
+		let contentItem = contentEl.querySelector('.content__item[data-space="' + spaceref + '"]');
+			
+		if(contentItem.getAttribute("data-category") == "1") {
+			classie.remove(pinMovingCtrl, 'boxbutton--disabled');
+		}
+		else {
+			classie.add(pinMovingCtrl, 'boxbutton--disabled');
+		}			
+	}
+
+	/**
 	 * Opens/Reveals a content item.
 	 */
 	function openContent(spacerefval) {
@@ -559,6 +619,26 @@
 	}
 
 	/**
+	 * Set svg to bottom control button
+	 */
+	function switchPlusMinus() {
+		let contentItem = contentEl.querySelector('.content__item[data-space="' + spaceref + '"]');
+
+		let svgButton = document.querySelector(".pin__button > svg");
+		let removingChild = document.querySelector(".pin__button > svg > use");
+
+		svgButton.removeChild(removingChild);
+		let s = Snap(svgButton);
+			
+		if(contentItem.getAttribute("data-category") == "1") {
+			s.use("#icon-pin-cross");
+		}
+		else {
+			s.use("#icon-pin-plus");
+		}
+	}
+
+	/**
 	 * Opens the content area.
 	 */
 	function openContentArea() {
@@ -566,13 +646,17 @@
 		// shows space
 		showSpace(true);
 		// show close ctrl
+		switchPlusMinus();
+		setMovingPinButtonState();
 		classie.remove(contentCloseCtrl, 'content__button--hidden');
-		classie.remove(pinMoveCtrl, 'pin__button--hidden');
+		classie.remove(pinAddRemoveCtrl, 'pin__button--hidden');
+		classie.remove(pinMovingCtrl, 'pin__moving--hidden');
 		// resize mall area
 		classie.add(mall, 'mall--content-open');
 		// disable mall nav ctrls
 		classie.add(levelDownCtrl, 'boxbutton--disabled');
 		classie.add(levelUpCtrl, 'boxbutton--disabled');
+		classie.add(allLevelsCtrl, 'boxbutton--disabled');
 	}
 
 	/**
@@ -604,7 +688,9 @@
 		hideSpace();
 		// hide close ctrl
 		classie.add(contentCloseCtrl, 'content__button--hidden');
-		classie.add(pinMoveCtrl, 'pin__button--hidden');
+		classie.add(pinAddRemoveCtrl, 'pin__button--hidden');
+		classie.add(pinMovingCtrl, 'pin__moving--hidden');
+		classie.remove(allLevelsCtrl, 'boxbutton--disabled');
 		// resize mall area
 		classie.remove(mall, 'mall--content-open');
 		// enable mall nav ctrls
