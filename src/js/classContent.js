@@ -17,8 +17,8 @@ class Content {
         this.x = x;
         this.y = y;
         this.upload = false;
-
-        this.category = (this.floor === "-999") ? 2 : 1;
+        this.converterState = false;
+        this.category = (this.floor === "-") ? 2 : 1;
 
         this.aPin = document.createElement('a');
         this.aPin.setAttribute('href', '#');
@@ -57,6 +57,7 @@ class Content {
             this.setFloor();
         }
 
+        this.converterState = true;
         this.aPin.appendChild(this.divPin);
     }
 
@@ -86,17 +87,18 @@ class Content {
     setPinPosition(x, y) {
         let rightClientSizeAttribute = (document.documentElement.clientWidth > document.documentElement.clientHeight) ? 
             document.documentElement.clientHeight : document.documentElement.clientWidth;
-        this.x = x;
-        this.y = y;
-        // HOT FLEXIBLE !!!
-        console.log('left ' + this.x + ", top " + this.y);
+
+        if (this.converterState) {
+            this.x = x * (100 / rightClientSizeAttribute) - 1;
+            this.y = y * (100 / rightClientSizeAttribute) + 1;
+        }
         // Some secret magic +-1
-        this.aPin.style['left'] = (this.x * (100 / rightClientSizeAttribute) - 1) + 'vmin';
-        this.aPin.style['top'] = (this.y * (100 / rightClientSizeAttribute) + 1) + 'vmin';
+        this.aPin.style['left'] = this.x  + 'vmin';
+        this.aPin.style['top'] = this.y + 'vmin';
     }
 
     dropPin() {
-        this.floor = "-999";
+        this.floor = "-";
         this.x = 0;
         this.y = 0;
         this.category = 2;
@@ -110,11 +112,16 @@ class Content {
     }
 
     pinUpload() {
-        let Pin = Snap();        
-        Snap.load("img/pin.svg", (f) => {
-            Pin.append(f.select("symbol"));
-        });
+        let Pin = Snap();
+        Pin.use("mainPin");
+        Pin.addClass("icon icon--pin");
         Pin.appendTo(this.divPin);
+
+        let Pin2 = Snap();
+        Pin2.use("logoPoly");
+        Pin2.addClass("icon icon--logo");
+        Pin2.appendTo(this.divPin);
+
         this.upload = true;
     }
 }

@@ -8,7 +8,7 @@
  * Copyright 2016, Codrops
  * http://www.codrops.com
  */
-;(function(window) {
+function main (list) {
 
 	'use strict';
 
@@ -122,13 +122,15 @@
 				  '</li>'
 		};
 		
-		let values = [];
+		let values_place = [];
+
 		let contents = {};
 
 		for (let equip of list) {
 			let content = new Content(equip['equip_id'], equip['equip_name'], equip['description'],
 									equip['floor_id'], equip['Xasis'], equip['Yasis']);
-			values.push({
+			
+			values_place.push({
 				list__link: content.name,
 				level: content.floor,
 				category: content.category,
@@ -138,7 +140,8 @@
 			contents[content.id] = content;
 		}		  
 		
-		let newList = new List('spaces-list', options, values);
+		let newList = new List('spaces-list', options, values_place);
+
 		newList.sort('category', { order: "asc" });
 
 		return [newList, contents] ;
@@ -154,6 +157,7 @@
 	 * Initialize/Bind events fn.
 	 */
 	function initEvents() {
+		console.log(contents);
 		// click on a Mall´s level
 		mallLevels.forEach(function(level, pos) {
 			level.addEventListener('click', function() {
@@ -204,7 +208,7 @@
 		
 				changebleSpace.values({
 					category: 2,
-					level: "-999"
+					level: "-"
 				});
 
 				spacesList.sort('category', { order: "asc" });
@@ -216,7 +220,13 @@
 				let s = Snap(svgLevel);
 
 				const clickCallback = (event) => {
-					contents[content].setFloor(selectedLevel, event.layerX, event.layerY);
+					if (browser == "Google Chrome")
+					{
+						contents[content].setFloor(selectedLevel, event.offsetX, event.offsetY);
+					}
+					else {
+						contents[content].setFloor(selectedLevel, event.layerX, event.layerY);
+					}
 					switchPlusMinus();
 					setMovingPinButtonState();
 					let changebleSpace = spacesList.get("space", contents[content].id)[0];
@@ -224,7 +234,7 @@
 						category: 1,
 						level: selectedLevel
 					});
-					
+
 					divLevel.style.pointerEvents = "auto";
 					list.style.pointerEvents = "auto";
 
@@ -272,7 +282,13 @@
 			let s = Snap(svgLevel);
 
 			const clickCallback = (event) => {
-				contents[content].setFloor(selectedLevel, event.layerX, event.layerY);
+				if (browser == "Google Chrome")
+					{
+						contents[content].setFloor(selectedLevel, event.offsetX, event.offsetY);
+					}
+					else {
+						contents[content].setFloor(selectedLevel, event.layerX, event.layerY);
+					}
 				divLevel.style.pointerEvents = "auto";
 				list.style.pointerEvents = "auto";
 				let newPin = mallLevelsEl.querySelector('.pin[data-space="' + spaceref + '"]');
@@ -440,7 +456,7 @@
 	 */
 	function showLevelSpaces() {
 		spacesList.filter(function(item) { 
-			return (item._values.level.toString() === selectedLevel.toString()) || (item._values.level.toString() === "-999"); 
+			return (item._values.level.toString() === selectedLevel.toString()) || (item._values.level.toString() === "-"); 
 		});
 	}
 
@@ -749,4 +765,4 @@
 	
 	init();
 
-})(window);
+};
