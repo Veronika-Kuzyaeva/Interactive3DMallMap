@@ -6,6 +6,8 @@ An interactive 3D mall map concept with a sidebar search and pin indicators for 
 
 [Demo](http://tympanus.net/Development/Interactive3DMallMap/)
 
+[My demo with pin translation](https://veronika-kuzyaeva.github.io/Interactive3DMallMap/)
+
 ## License
 
 Integrate or build upon it for free in your personal or commercial projects. Don't republish, redistribute or sell "as-is". 
